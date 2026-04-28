@@ -447,6 +447,7 @@ limitations under the License.
 --------------------------------------------------------------------------------
 angle
 
+<<<<<<< HEAD
 Copyright (c) 2008-2023 The Khronos Group Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -463,6 +464,8 @@ limitations under the License.
 --------------------------------------------------------------------------------
 angle
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 2013-2017 The Khronos Group Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a
@@ -563,6 +566,7 @@ found in the LICENSE file.
 --------------------------------------------------------------------------------
 angle
 
+<<<<<<< HEAD
 Copyright (c) 2023 The Khronos Group Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -579,6 +583,8 @@ limitations under the License.
 --------------------------------------------------------------------------------
 angle
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2002 The ANGLE Project Authors. All rights reserved.
 Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
@@ -755,6 +761,7 @@ found in the LICENSE file.
 --------------------------------------------------------------------------------
 angle
 
+<<<<<<< HEAD
 Copyright 2023 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -794,6 +801,8 @@ found in the LICENSE file.
 --------------------------------------------------------------------------------
 angle
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright The ANGLE Project Authors. All rights reserved.
  Use of this source code is governed by a BSD-style license that can be
  found in the LICENSE file.
@@ -805,6 +814,7 @@ Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 --------------------------------------------------------------------------------
 angle
+<<<<<<< HEAD
 
 Copyright {copyright_year} The ANGLE Project Authors. All rights reserved.
 Use of this source code is governed by a BSD-style license that can be
@@ -812,6 +822,8 @@ found in the LICENSE file.
 --------------------------------------------------------------------------------
 angle
 benchmark
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 boringssl
 clock
 cpu_features
@@ -1056,6 +1068,43 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 --------------------------------------------------------------------------------
 angle
+<<<<<<< HEAD
+=======
+spirv-tools
+
+Copyright (c) 2020 The Khronos Group Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--------------------------------------------------------------------------------
+angle
+swiftshader
+
+Copyright 2020 The SwiftShader Authors. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--------------------------------------------------------------------------------
+angle
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 xxhash
 
 Copyright 2019 The ANGLE Project Authors. All rights reserved.
@@ -1095,6 +1144,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 benchmark
 
 Copyright 2016 Ismael Jimenez Martinez. All rights reserved.
@@ -1179,6 +1229,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --------------------------------------------------------------------------------
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 boolean_selector
 meta
 
@@ -1604,6 +1656,15 @@ BSD-style license that can be found in the LICENSE file.
 --------------------------------------------------------------------------------
 dart
 
+<<<<<<< HEAD
+=======
+Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
+for details. All rights reserved. Use of this source code is governed by a
+BSD-style license that can be found in the LICENSE file.
+--------------------------------------------------------------------------------
+dart
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 for details. All rights reserved. Use of this source code is governed by a
 BSD-style license that can be found in the LICENSE file.
@@ -1721,6 +1782,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --------------------------------------------------------------------------------
 dart
+<<<<<<< HEAD
 perfetto
 
 Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
@@ -1728,6 +1790,8 @@ for details. All rights reserved. Use of this source code is governed by a
 BSD-style license that can be found in the LICENSE file.
 --------------------------------------------------------------------------------
 dart
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 skia
 
 Copyright (c) 2015 The Chromium Authors. All rights reserved.
@@ -4621,6 +4685,25 @@ limitations under the License.
 --------------------------------------------------------------------------------
 flatbuffers
 
+<<<<<<< HEAD
+=======
+Copyright 2015 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--------------------------------------------------------------------------------
+flatbuffers
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2016 Google Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -4669,6 +4752,25 @@ limitations under the License.
 --------------------------------------------------------------------------------
 flatbuffers
 
+<<<<<<< HEAD
+=======
+Copyright 2018 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--------------------------------------------------------------------------------
+flatbuffers
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2019 Google Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -4701,6 +4803,25 @@ limitations under the License.
 --------------------------------------------------------------------------------
 flatbuffers
 
+<<<<<<< HEAD
+=======
+Copyright 2021 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--------------------------------------------------------------------------------
+flatbuffers
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2022 Google Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -4806,6 +4927,7 @@ Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 --------------------------------------------------------------------------------
 flutter
+<<<<<<< HEAD
 
 License for the Ahem font embedded below is from:
 https://www.w3.org/Style/CSS/Test/Fonts/Ahem/COPYING
@@ -4848,6 +4970,8 @@ which is quoted below:
   the Work.
 --------------------------------------------------------------------------------
 flutter
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 skia
 
 Copyright 2022 Google LLC
@@ -13882,6 +14006,37 @@ icu
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
 
+<<<<<<< HEAD
+=======
+Copyright (C) 2002-2010, International Business Machines
+Corporation and others.  All Rights Reserved.
+
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+Copyright (c) 2001-2003 International Business Machines
+Corporation and others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+Copyright (c) 2001-2010 International Business Machines
+Corporation and others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 2002-2005, International Business Machines Corporation and others. All Rights Reserved.
 
 --------------------------------------------------------------------------------
@@ -13890,6 +14045,17 @@ icu
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
 
+<<<<<<< HEAD
+=======
+Copyright (c) 2002-2010, International Business Machines Corporation and others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 2002-2015, International Business Machines Corporation and
 others. All Rights Reserved.
 
@@ -13909,6 +14075,25 @@ icu
 
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+<<<<<<< HEAD
+=======
+
+Copyright (c) 2003-2005, International Business Machines Corporation and others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+Copyright (c) 2003-2010, International Business Machines Corporation and others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 ####################################################################
 Copyright (c) 2009, International Business Machines Corporation and
 others. All Rights Reserved.
@@ -14080,6 +14265,20 @@ icu
 
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+<<<<<<< HEAD
+=======
+***************************************************************************
+*
+* Copyright (C) 2009 International Business Machines
+* Corporation and others.  All Rights Reserved.
+*
+***************************************************************************
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 *****************************************************************************
 
   Copyright (C) 2002-2015, International Business Machines Corporation and others.
@@ -14095,6 +14294,22 @@ Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
 *******************************************************************************
 *
+<<<<<<< HEAD
+=======
+*   Copyright (C) 1995-2001, International Business Machines
+*   Corporation and others.  All Rights Reserved.
+*
+*******************************************************************************
+
+
+--------------------------------------------------------------------------------
+icu
+
+Copyright (C) 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+*******************************************************************************
+*
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 *   Copyright (C) 1995-2005, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
@@ -14171,6 +14386,7 @@ icu
 
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+<<<<<<< HEAD
 ---------------------------------------------------------
 Copyright (C) 2013, International Business Machines
 Corporation and others.  All Rights Reserved.
@@ -14180,6 +14396,8 @@ icu
 
 Copyright (C) 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (C) 1999-2016, International Business Machines
 Corporation and others.  All Rights Reserved.
 
@@ -14230,7 +14448,11 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
+<<<<<<< HEAD
 Copyright © 2016-2025 Unicode, Inc.
+=======
+Copyright © 2016-2023 Unicode, Inc.
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -14266,8 +14488,11 @@ not be used in advertising or otherwise to promote the sale, use or other
 dealings in these Data Files or Software without prior written
 authorization of the copyright holder.
 
+<<<<<<< HEAD
 SPDX-License-Identifier: Unicode-3.0
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 ----------------------------------------------------------------------
 
 Third-Party Software Licenses
@@ -14661,6 +14886,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ----------------------------------------------------------------------
 
+<<<<<<< HEAD
 JSON parsing library (nlohmann/json)
 
 File: vendor/json/upstream/single_include/nlohmann/json.hpp (only for ICU4C)
@@ -14689,6 +14915,8 @@ SOFTWARE.
 
 ----------------------------------------------------------------------
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 
 File: install-sh (only for ICU4C)
 
@@ -16412,6 +16640,20 @@ icu
 License & terms of use: http://www.unicode.org/copyright.html
 
 
+<<<<<<< HEAD
+=======
+Copyright (C) 2008-2013, International Business Machines Corporation and
+others. All Rights Reserved.
+
+
+--------------------------------------------------------------------------------
+icu
+
+© 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (C) 2009-2011, International Business Machines
                Corporation and others. All Rights Reserved.
 
@@ -16444,6 +16686,19 @@ icu
 License & terms of use: http://www.unicode.org/copyright.html
 
 
+<<<<<<< HEAD
+=======
+Copyright (c) 1999-2007, International Business Machines Corporation and
+others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+© 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 1999-2010, International Business Machines Corporation and
 others. All Rights Reserved.
 
@@ -19939,6 +20194,18 @@ icu
 
 © 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+<<<<<<< HEAD
+=======
+Copyright (C) 2008-2014, International Business Machines Corporation and
+others. All Rights Reserved.
+
+
+--------------------------------------------------------------------------------
+icu
+
+© 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (C) 2008-2016, International Business Machines Corporation and
 others. All Rights Reserved.
 
@@ -20175,6 +20442,17 @@ icu
 
 © 2016 and later: Unicode, Inc. and others.
 License & terms of use: http://www.unicode.org/copyright.html
+<<<<<<< HEAD
+=======
+Copyright (c) 2008-2014, International Business Machines Corporation and
+others. All Rights Reserved.
+
+--------------------------------------------------------------------------------
+icu
+
+© 2016 and later: Unicode, Inc. and others.
+License & terms of use: http://www.unicode.org/copyright.html
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) IBM Corporation, 2000-2010.   All rights reserved.   
 
 This software is made available under the terms of the             
@@ -20228,6 +20506,7 @@ Google, and others. All Rights Reserved.
 
 --------------------------------------------------------------------------------
 icu
+<<<<<<< HEAD
 include
 json
 
@@ -20260,6 +20539,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --------------------------------------------------------------------------------
 icu
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 skia
 
 Copyright (c) 2018 The Chromium Authors. All rights reserved.
@@ -20366,6 +20647,15 @@ freely, subject to the following restrictions:
 4.  This notice may not be removed or altered from any source
     distribution.
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+include
+json
+
+@copyright Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+@sa http://bjoern.hoehrmann.de/utf-8/decoder/dfa/
+--------------------------------------------------------------------------------
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 inja
 
 
@@ -20458,6 +20748,33 @@ BSD-style license that can be found in the LICENSE file.
 --------------------------------------------------------------------------------
 json
 
+<<<<<<< HEAD
+=======
+
+
+Copyright (c) 2013-2022 Niels Lohmann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+--------------------------------------------------------------------------------
+json
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Apache License
 Version 2.0, January 2004
 http://www.apache.org/licenses/
@@ -22510,8 +22827,13 @@ libpng
 PNG Reference Library License version 2
 ---------------------------------------
 
+<<<<<<< HEAD
  * Copyright (c) 1995-2025 The PNG Reference Library Authors.
  * Copyright (c) 2018-2025 Cosmin Truta.
+=======
+ * Copyright (c) 1995-2024 The PNG Reference Library Authors.
+ * Copyright (c) 2018-2024 Cosmin Truta.
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
  * Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson.
  * Copyright (c) 1996-1997 Andreas Dilger.
  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
@@ -22645,8 +22967,13 @@ libpng
 PNG Reference Library License version 2
 ---------------------------------------
 
+<<<<<<< HEAD
  * Copyright (c) 1995-2025 The PNG Reference Library Authors.
  * Copyright (c) 2018-2025 Cosmin Truta.
+=======
+ * Copyright (c) 1995-2024 The PNG Reference Library Authors.
+ * Copyright (c) 2018-2024 Cosmin Truta.
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
  * Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson.
  * Copyright (c) 1996-1997 Andreas Dilger.
  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
@@ -24179,12 +24506,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied. See the License for the specific language governing
 permissions and limitations under the License.
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 perfetto
 
 Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 for details. All rights reserved. Use of this source code is governed by a
 BSD-style license that can be found in the LICENSE file.
 --------------------------------------------------------------------------------
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 process_runner
 
 Copyright 2020 The Flutter Authors. All rights reserved.
@@ -25327,6 +25657,21 @@ found in the LICENSE file
 --------------------------------------------------------------------------------
 skia
 
+<<<<<<< HEAD
+=======
+Copyright 2016 Google Inc.
+
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+
+Copyright 2014 Google Inc.
+
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+--------------------------------------------------------------------------------
+skia
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2016 Mozilla Foundation
 
 Use of this source code is governed by a BSD-style license that can be
@@ -25678,12 +26023,15 @@ found in the LICENSE file.
 skia
 
 Copyright 2024 Google LLC.
+<<<<<<< HEAD
 Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 --------------------------------------------------------------------------------
 skia
 
 Copyright 2024 Google LLC.
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 --------------------------------------------------------------------------------
 skia
@@ -25720,6 +26068,7 @@ Copyright 2025 Google LLC.
 Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 skia
 
 Copyright 2025 Google, LLC
@@ -25727,6 +26076,8 @@ Copyright 2025 Google, LLC
 Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 --------------------------------------------------------------------------------
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 spirv-cross
 
 Apache License
@@ -26668,6 +27019,7 @@ limitations under the License.
 --------------------------------------------------------------------------------
 spirv-tools
 
+<<<<<<< HEAD
 Copyright (c) 2020 The Khronos Group Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26684,6 +27036,8 @@ limitations under the License.
 --------------------------------------------------------------------------------
 spirv-tools
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright (c) 2020 Vasyl Teliman
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27329,6 +27683,21 @@ SUCH DAMAGE.
 --------------------------------------------------------------------------------
 swiftshader
 
+<<<<<<< HEAD
+=======
+Copyright 2014-2023 The Khronos Group Inc.
+
+SPDX-License-Identifier: Apache-2.0
+--------------------------------------------------------------------------------
+swiftshader
+
+Copyright 2015-2023 The Khronos Group Inc.
+
+SPDX-License-Identifier: Apache-2.0
+--------------------------------------------------------------------------------
+swiftshader
+
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2016 The SwiftShader Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27431,6 +27800,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
+<<<<<<< HEAD
    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
@@ -27447,6 +27817,8 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
  http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
@@ -27541,6 +27913,7 @@ swiftshader
 vulkan
 vulkan-headers
 
+<<<<<<< HEAD
 Copyright 2014-2025 The Khronos Group Inc.
 
 SPDX-License-Identifier: Apache-2.0
@@ -27549,12 +27922,15 @@ swiftshader
 vulkan
 vulkan-headers
 
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 Copyright 2015-2023 The Khronos Group Inc.
 Copyright 2015-2023 Valve Corporation
 Copyright 2015-2023 LunarG, Inc.
 
 SPDX-License-Identifier: Apache-2.0
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 swiftshader
 vulkan
 vulkan-headers
@@ -27572,6 +27948,8 @@ Copyright 2023-2025 LunarG, Inc.
 
 SPDX-License-Identifier: Apache-2.0
 --------------------------------------------------------------------------------
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 term_glyph
 
 Copyright 2017, the Dart project authors. 
@@ -27747,6 +28125,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 volk
 
 Copyright (c) 2018-2024 Arseny Kapoulkine
@@ -27769,6 +28148,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --------------------------------------------------------------------------------
+=======
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 vulkan
 
 // Copyright (c) 2018 Google Inc. All rights reserved.
@@ -27799,6 +28180,23 @@ vulkan
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+vulkan
+vulkan-headers
+
+Copyright 2014-2025 The Khronos Group Inc.
+
+SPDX-License-Identifier: Apache-2.0
+--------------------------------------------------------------------------------
+vulkan
+vulkan-headers
+
+Copyright 2015-2025 The Khronos Group Inc.
+
+SPDX-License-Identifier: Apache-2.0
+--------------------------------------------------------------------------------
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 vulkan-headers
 
 Copyright (c) 2018-2019 Collabora, Ltd.
@@ -28199,6 +28597,17 @@ Copyright (C) 2019-2024 Google Inc.
 
 SPDX-License-Identifier: Apache-2.0
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+vulkan-utility-libraries
+
+Copyright 2023-2025 The Khronos Group Inc.
+Copyright 2023-2025 Valve Corporation
+Copyright 2023-2025 LunarG, Inc.
+
+SPDX-License-Identifier: Apache-2.0
+--------------------------------------------------------------------------------
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
 vulkan-validation-layers
 
 

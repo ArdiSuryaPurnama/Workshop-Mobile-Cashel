@@ -35,11 +35,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // splash awal (biru)
     Future.delayed(const Duration(seconds: 2), () {
-      _controller.animateToPage(0,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeIn);
-    });
-  }
+    if (_controller.hasClients) {
+      _controller.animateToPage(
+        1,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeIn,
+      );
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {

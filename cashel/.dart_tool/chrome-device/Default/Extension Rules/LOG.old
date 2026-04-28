@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 2026/04/28-23:03:05.868 7738 Creating DB C:\Users\nihan\AppData\Local\Temp\flutter_tools.63956c89\flutter_tools_chrome_device.a966ba3f\Default\Extension Rules since it was missing.
 2026/04/28-23:03:05.989 7738 Reusing MANIFEST C:\Users\nihan\AppData\Local\Temp\flutter_tools.63956c89\flutter_tools_chrome_device.a966ba3f\Default\Extension Rules/MANIFEST-000001
+=======
+2026/04/28-19:38:43.098 24c8 Creating DB C:\Users\asus\AppData\Local\Temp\flutter_tools.38e2843e\flutter_tools_chrome_device.5e0d1a93\Default\Extension Rules since it was missing.
+2026/04/28-19:38:43.133 24c8 Reusing MANIFEST C:\Users\asus\AppData\Local\Temp\flutter_tools.38e2843e\flutter_tools_chrome_device.5e0d1a93\Default\Extension Rules/MANIFEST-000001
+>>>>>>> 51c14af61dee7d57026b9a88b448678a708642ec
