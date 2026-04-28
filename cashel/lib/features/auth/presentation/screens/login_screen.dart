@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
-import '../../../../shared/widgets/custom_textfield.dart';
+import 'package:chasel/shared/widgets/custom_textfield.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -34,10 +34,10 @@ class LoginScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            const CustomTextField(hint: "Email"),
+            CustomTextField(hint: "Email"),
             const SizedBox(height: 15),
-            const CustomTextField(hint: "Password", isPassword: true),
-
+            CustomTextField(hint: "Password", isPassword: true),
+            
             const SizedBox(height: 10),
 
             Align(
