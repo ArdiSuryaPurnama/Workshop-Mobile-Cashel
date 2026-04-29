@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 40),
 
-            // IMAGE (placeholder dulu biar ga error)
+            // IMAGE (placeholder)
             Container(
               height: 200,
               decoration: BoxDecoration(
@@ -61,17 +61,43 @@ class LoginScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            OutlinedButton(
-              onPressed: () {},
-              child: const Text("Google"),
-            ),
+            Container(
+              width: double.infinity,
+              height: 55,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.red),
+                borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.g_mobiledata, color: Colors.red, size: 40),
+                    SizedBox(width: 10),
+                    Text("Google", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                    ],
+                    ),
+                    ),
+                    const SizedBox(height: 10),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 15), // Kasih jarak
 
-            OutlinedButton(
-              onPressed: () {},
-              child: const Text("Facebook"),
-            ),
+// --- TOMBOL FACEBOOK MANUAL ---
+            Container(
+              width: double.infinity,
+              height: 55,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.facebook, color: Colors.blue, size: 30),
+                    SizedBox(width: 10),
+                    Text("Facebook", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    ],
+                    ),
+                    ),
 
             const SizedBox(height: 20),
 

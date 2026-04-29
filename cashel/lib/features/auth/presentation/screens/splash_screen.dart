@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import 'login_screen.dart';
+import 'register_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -133,7 +134,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       CustomButton(
                         text: "Masuk",
                         onPressed: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (_) => const LoginScreen()),
@@ -142,9 +143,16 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                       const SizedBox(height: 10),
                       OutlinedButton(
-                        onPressed: () {},
-                        child: const Text("Mendaftar"),
-                      ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => RegisterPage(),
+                              ),
+                              );
+                              },
+                              child: const Text("Mendaftar")
+                              ),
                     ],
                   )
                 else
