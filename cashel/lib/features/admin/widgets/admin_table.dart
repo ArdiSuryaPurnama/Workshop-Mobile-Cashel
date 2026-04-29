@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cashel_v2/data/models/user_order_model.dart';
+import '../../../data/models/user_order_model.dart';
 import '../../../data/service/mock_data_table.dart';
 
 class AdminTable extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cashel_v2/data/models/overview_stats_model.dart';
+import '../../../data/models/overview_stats_model.dart';
 
 class OverviewStatCard extends StatelessWidget {
   final OverviewStatsModel data; // Sekarang pakai Model
