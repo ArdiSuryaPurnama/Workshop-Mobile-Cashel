@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // Pastikan nama paket 'chasel' di bawah ini sama dengan nama di pubspec.yaml kamu
-import 'package:chasel/features/auth/presentation/screens/register_page.dart'; 
+import 'package:chasel/features/auth/presentation/screens/register_page.dart';
+import 'package:chasel/features/customer/presentation/screens/detail_produk_screen.dart';
+import 'package:chasel/features/auth/presentation/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: RegisterPage(), 
+      home: SplashScreen(),
     );
   }
 }
