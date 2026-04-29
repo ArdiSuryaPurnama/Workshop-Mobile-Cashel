@@ -142,19 +142,27 @@ class _SplashScreenState extends State<SplashScreen> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => RegisterPage(),
-                              ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50, // Sesuaikan tinggi agar seragam dengan CustomButton
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => RegisterPage()),
                               );
                               },
-                              child: const Text("Mendaftar")
-                              ),
-                    ],
-                  )
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: AppColors.primary), // Biar garisnya biru sesuai tema
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12), // Samakan radiusnya
+                                  ),
+                                  ),
+                                  child: const Text("Mendaftar"),
+                                  ),
+                                  ),
+                                  ],
+                                  )
                 else
                   TextButton(
                     onPressed: () {
