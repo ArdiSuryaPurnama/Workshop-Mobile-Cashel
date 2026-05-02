@@ -20,17 +20,17 @@ class _SplashScreenState extends State<SplashScreen> {
     {
       "title": "CASHEL",
       "desc": "Aplikasi bisnis penjualan Alat Tulis Kantor (ATK) yang bisa dipesan lewat online!",
-      "image": "assets/logo_cashel.png" 
+      "image": "assets/logo-cashel.png"
     },
     {
       "title": "Mudah dalam pembelian,\ndengan CASHEL",
       "desc": "Pembelian bisa dilakukan secara cod/online agar lebih mudah dan efisien.",
-      "image": "assets/onboarding_2.png" 
+      "image": "assets/introduction-page.png"
     },
     {
       "title": "Mudah dalam pembelian,\ndengan CASHEL",
       "desc": "Beli alat tulis sesuai kebutuhan kapan saja",
-      "image": "assets/onboarding_3.png"
+      "image": "assets/get-started-page.png"
     },
   ];
 

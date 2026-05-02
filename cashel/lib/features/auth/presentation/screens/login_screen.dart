@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
             // IMAGE (Sudah diganti dari Container ke Image.asset)
             // Pastikan file gambar ada di folder assets/ dan sudah di-register di pubspec.yaml
             Image.asset(
-              'assets/logo.png', // Ganti 'logo.png' dengan nama file gambarmu
+              'assets/login-page.png', // Ganti 'logo.png' dengan nama file gambarmu
               height: 200,
               errorBuilder: (context, error, stackTrace) {
                 // Jika gambar tidak ditemukan, tampilkan kotak abu-abu agar tidak merah/error
