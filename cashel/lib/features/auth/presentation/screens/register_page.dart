@@ -37,8 +37,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 
                 // --- 1. GAMBAR ILUSTRASI ---
                 Center(
-                  child: Image.network(
-                    'https://via.placeholder.com/250x180.png?text=Registrasi+Ilustrasi', // Ganti dengan asset lokal kamu
+                  child: Image.asset(
+                    'assets/register.png', // Ganti dengan asset lokal kamu
                     height: 180,
                     fit: BoxFit.contain,
                   ),
