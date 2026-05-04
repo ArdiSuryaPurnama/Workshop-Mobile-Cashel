@@ -54,7 +54,7 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                     ),
                     child: Center(
                       child: Image.asset(
-                        'assets/pensil.png', // Sesuaikan path assetmu
+                        'assets/pensil.png', // Sesuaikan path asset
                         height: 280,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) =>
