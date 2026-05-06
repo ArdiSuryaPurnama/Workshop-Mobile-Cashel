@@ -18,9 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+  String? errorMessage; // Variabel untuk menyimpan pesan error di atas
 
   void handleLogin() async {
-    setState(() => isLoading = true);
+    setState(() {
+      isLoading = true;
+      errorMessage = null; // Reset error setiap kali mencoba login
+    });
 
     try {
       LoginService authService = LoginService();
@@ -33,25 +37,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.status == 'success') {
         if (response.data!.role == 'admin') {
-          // Navigasi ke Dashboard Admin (Ganti dengan class Admin kamu nanti)
           print("Masuk sebagai Admin");
         } else {
-          // Navigasi ke Dashboard Customer
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const DetailProdukScreen()),
           );
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.message)),
-        );
+        // Tampilkan error di bagian atas
+        setState(() => errorMessage = "Harap Periksa kembali Email atau Password yang anda masukkan!!!");
       }
     } catch (e) {
-      setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Terjadi kesalahan: $e")),
-      );
+      setState(() {
+        isLoading = false;
+        errorMessage = "Terjadi kesalahan koneksi: $e";
+      });
     }
   }
 
@@ -59,59 +60,138 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const SizedBox(height: 40),
-            Image.asset(
-              'assets/login-page.png',
-              height: 200,
-              errorBuilder: (context, error, stackTrace) => Container(
-                height: 200,
-                color: Colors.grey[300],
-                child: const Center(child: Text("Gambar tidak ditemukan")),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text("Login", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-
-            CustomTextField(hint: "Email", controller: emailController),
-            const SizedBox(height: 15),
-            CustomTextField(hint: "Password", isPassword: true, controller: passwordController),
-            
-            const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterPage())),
-                child: Text("Lupa password?", style: TextStyle(color: Colors.grey[600])),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            isLoading
-              ? const CircularProgressIndicator()
-              : CustomButton(
-                  text: "Masuk",
-                  onPressed: handleLogin,
-                ),
-
-            const SizedBox(height: 20),
-            
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Belum punya akun? "),
-                InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterPage())),
-                  child: const Text(
-                    "Daftar sekarang",
-                    style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              // --- 1. ERROR BANNER (MUNCUL DI PALING ATAS) ---
+              if (errorMessage != null)
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE57373), // Warna merah sesuai gambar
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    errorMessage!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                 ),
-              ],
+
+              const SizedBox(height: 40),
+              Image.asset(
+                'assets/login-page.png',
+                height: 180,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 20),
+              const Text("Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 25),
+
+              CustomTextField(hint: "Email", controller: emailController),
+              const SizedBox(height: 15),
+              CustomTextField(hint: "Password", isPassword: true, controller: passwordController),
+              
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {}, // Tambahkan navigasi lupa password jika ada
+                  child: const Text("Lupa password?", style: TextStyle(color: Colors.grey)),
+                ),
+              ),
+              const SizedBox(height: 25),
+
+              isLoading
+                ? const CircularProgressIndicator()
+                : CustomButton(
+                    text: "Masuk",
+                    onPressed: handleLogin,
+                  ),
+
+              const SizedBox(height: 30),
+
+              // --- 2. DIVIDER "ATAU MASUK MENGGUNAKAN" ---
+              Row(
+                children: [
+                  const Expanded(child: Divider(thickness: 1.5)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("Atau masuk menggunakan", style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+                  ),
+                  const Expanded(child: Divider(thickness: 1.5)),
+                ],
+              ),
+              
+              const SizedBox(height: 25),
+
+              // --- 3. SOCIAL BUTTONS ---
+              _buildSocialButton(
+                text: "Google",
+                iconAsset: 'assets/google-icon.png',
+                borderColor: Colors.redAccent,
+                textColor: Colors.redAccent,
+              ),
+              const SizedBox(height: 15),
+              _buildSocialButton(
+                text: "Facebook",
+                iconAsset: 'assets/facebook-icon.png',
+                borderColor: const Color(0xFF3B95DE),
+                textColor: const Color(0xFF3B95DE),
+              ),
+
+              const SizedBox(height: 30),
+              
+              // --- 4. REDIRECT DAFTAR ---
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Belum punya akun? "),
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterPage())),
+                    child: const Text(
+                      "Mendaftar sekarang",
+                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Helper Widget untuk tombol Social Login
+  Widget _buildSocialButton({
+    required String text,
+    required String iconAsset,
+    required Color borderColor,
+    required Color textColor,
+  }) {
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        border: Border.all(color: borderColor, width: 1.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: InkWell(
+        onTap: () {
+          // Logika login social nanti di sini
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(iconAsset, height: 24),
+            const SizedBox(width: 12),
+            Text(
+              text,
+              style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ],
         ),
