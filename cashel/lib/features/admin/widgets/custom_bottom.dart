@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // Pastikan path import AppTextStyles Anda benar
-import 'package:cashel_v2/core/constant/app_text_styles.dart'; 
+import '../../../core/constants/app_text_styles.dart'; 
 
 class CustomBottomNav extends StatelessWidget {
   final int currentIndex;

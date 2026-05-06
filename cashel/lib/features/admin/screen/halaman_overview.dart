@@ -6,7 +6,7 @@ import '../widgets/admin_table.dart';
 import '../widgets/admin_chart.dart'; // Import chart yang sudah kita buat
 
 // Import Models & Services
-import 'package:cashel_v2/data/models/overview_stats_model.dart';
+import '../../../data/models/overview_stats_model.dart';
 import '../../../data/service/mock_overview_stats.dart';
 
 class HalamanOverview extends StatelessWidget {
