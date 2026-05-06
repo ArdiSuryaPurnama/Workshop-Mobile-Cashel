@@ -6,8 +6,44 @@ import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import 'package:chasel/shared/widgets/custom_textfield.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'package:chasel/core/constants/api_constants.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // DI SINI LETAK FUNGSINYA
+  Future<void> _handleLogin() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    // --- TARUH DI BARIS INI ---
+    var url = Uri.parse(ApiConstants.loginEndpoint);
+    // --------------------------
+
+    try {
+      var response = await http.post(url, body: {
+        'email': email,
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // ... logika jika berhasil
+      } else {
+        // ... logika jika gagal
+      }
+    } catch (e) {
+      // ... penanganan error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
