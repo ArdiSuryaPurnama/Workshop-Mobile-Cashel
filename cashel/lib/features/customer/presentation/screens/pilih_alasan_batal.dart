@@ -73,13 +73,20 @@ class _PilihAlasanBatalSheetState extends State<PilihAlasanBatalSheet> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: alasanTerpilih == null 
-                ? null // Tombol mati kalau belum pilih
-                : () {
-                    Navigator.pop(context); // Tutup Pop-up
-                    print("Alasan dipilih: $alasanTerpilih");
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => RincianPembatalanBerhasil()));
-                  },
+              onPressed: alasanTerpilih == null
+               ? null // Tombol mati kalau belum pilih
+               : () {
+                Navigator.pop(context); // 1. Menutup Pop-up terlebih dahulu
+                
+                print("Alasan dipilih: $alasanTerpilih");
+                // 2. AKTIFKAN BARIS INI (Hapus tanda // di depannya):
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => const RincianPembatalanBerhasil(),
+                    ),
+                    );
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: alasanTerpilih == null 
                   ? Colors.grey[300] // Abu-abu kalau mati

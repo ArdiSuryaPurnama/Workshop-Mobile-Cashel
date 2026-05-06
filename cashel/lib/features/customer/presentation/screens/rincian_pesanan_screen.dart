@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pilih_alasan_batal.dart';
+import 'chat_toko_screen.dart';
 
 class RincianPesananScreen extends StatelessWidget {
   final String metodePembayaran;
@@ -120,14 +121,44 @@ class RincianPesananScreen extends StatelessWidget {
             const SizedBox(height: 15),
 
             // 5. BUTUH BANTUAN
-            _buildActionTile(
-              icon: Icons.chat_bubble_outline,
-              title: "Butuh Bantuan?",
-              subtitle: "Hubungi Toko",
-              onTap: () {
-                // Navigasi ke halaman chat/bantuan
-              },
-            ),
+           // === KODE BARU (Bisa Diklik Utuh & Tombol Kanan Dihapus) ===
+GestureDetector(
+  onTap: () {
+    // Ketika baris "Butuh Bantuan?" diklik, langsung pindah ke Chat Toko
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ChatTokoScreen(), // Pastikan import 'chat_toko_screen.dart'; sudah ada di paling atas file
+      ),
+    );
+  },
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border(
+        bottom: BorderSide(color: Colors.grey[200]!),
+      ),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.chat_outlined, color: Colors.black87),
+        const SizedBox(width: 12),
+        const Text(
+          "Butuh Bantuan?",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+            fontSize: 15,
+          ),
+        ),
+        const Spacer(),
+        // Hanya menyisakan ikon panah tipis di ujung kanan sebagai penanda bisa diklik
+        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
+      ],
+    ),
+  ),
+),
 
             const SizedBox(height: 15),
 
@@ -181,19 +212,27 @@ class RincianPesananScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: OutlinedButton(
-                onPressed: () { /* Fungsi Hubungi Toko */ },
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  side: const BorderSide(color: Colors.grey),
-                ),
-                child: const Text("Hubungi Toko", style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  // Perintah untuk pindah ke halaman Chat Toko
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatTokoScreen(), // Sesuaikan dengan nama class di file chat_toko_screen kamu
+                      ),
+                      );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        side: const BorderSide(color: Colors.grey),
+                        ),
+                        child: const Text("Hubungi Toko", style: TextStyle(color: Colors.black)),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        }
 
   // --- HELPER WIDGETS ---
 

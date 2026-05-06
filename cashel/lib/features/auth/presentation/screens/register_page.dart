@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Pastikan file ini ada dan berisi LoginPage
+// 1. KITA IMPORT HALAMAN KERANJANG DI SINI
+import 'package:chasel/features/customer/presentation/screens/keranjang_page.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -113,20 +115,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 // --- 4. TOMBOL MENDAFTAR (BIRU) ---
                 ElevatedButton(
                   onPressed: () {
-  // 1. Validasi form (supaya tidak kosong)
-  if (_formKey.currentState!.validate()) {
-    
-    // 2. Pindah ke halaman Login
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()), 
-    );
-    
-  }
-},
+                    // Validasi form (supaya inputan tidak boleh kosong)
+                    if (_formKey.currentState!.validate()) {
+                      
+                      // 2. KITA PINDAH KE HALAMAN KERANJANG DI SINI
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const KeranjangPage(), 
+                        ), 
+                      );
+                      
+                    }
+                  },
                   child: Text("Mendaftar"),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF3B95DE), // Warna biru di gambar
+                    backgroundColor: Color(0xFF3B95DE), // Warna biru Cashel
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -139,70 +143,71 @@ class _RegisterPageState extends State<RegisterPage> {
                 _buildDivider(),
                 SizedBox(height: 20),
 
-                // --- 6. TOMBOL GOOGLE & FACEBOOK (Garis) ---
+                // --- 6. TOMBOL GOOGLE & FACEBOOK ---
                 // --- TOMBOL GOOGLE MANUAL ---
-Container(
-  width: double.infinity,
-  height: 55,
-  decoration: BoxDecoration(
-    border: Border.all(color: Colors.red), 
-    borderRadius: BorderRadius.circular(12),
-  ),
-  child: const Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(Icons.g_mobiledata, color: Colors.red, size: 40),
-      SizedBox(width: 10),
-      Text("Google", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-    ],
-  ),
-),
+                Container(
+                  width: double.infinity,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red), 
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.g_mobiledata, color: Colors.red, size: 40),
+                      SizedBox(width: 10),
+                      Text("Google", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
 
-const SizedBox(height: 15), // Kasih jarak
+                const SizedBox(height: 15),
 
-// --- TOMBOL FACEBOOK MANUAL ---
-Container(
-  width: double.infinity,
-  height: 55,
-  decoration: BoxDecoration(
-    border: Border.all(color: Colors.blue), 
-    borderRadius: BorderRadius.circular(12),
-  ),
-  child: const Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(Icons.facebook, color: Colors.blue, size: 30),
-      SizedBox(width: 10),
-      Text("Facebook", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-    ],
-  ),
-),
+                // --- TOMBOL FACEBOOK MANUAL ---
+                Container(
+                  width: double.infinity,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue), 
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.facebook, color: Colors.blue, size: 30),
+                      SizedBox(width: 10),
+                      Text("Facebook", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 15),
 
                 // --- 7. TULISAN SUDAH PUNYA AKUN ---
-              Center(
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text("Sudah punya akun? silahkan "),
-      GestureDetector(
-        onTap: () {
-          // Ini adalah perintah untuk pindah ke halaman Login
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()), // Sesuaikan nama Class Login kamu
-          );
-        },
-        child: const Text(
-          "masuk",
-          style: TextStyle(
-            color: Colors.blue, 
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ],
-  ),
-),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Sudah punya akun? silahkan "),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          );
+                        },
+                        child: const Text(
+                          "masuk",
+                          style: TextStyle(
+                            color: Colors.blue, 
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 20),
               ],
             ),
@@ -212,9 +217,8 @@ Container(
     );
   }
 
-  // --- WIDGET HELPER AGAR KODE RAPI ---
+  // --- WIDGET HELPER ---
 
-  // Input Field Biasa
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,
@@ -224,11 +228,17 @@ Container(
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$hintText tidak boleh kosong';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(icon, color: Colors.grey),
         filled: true,
-        fillColor: Color(0xFFFDFDFD), // Sedikit abu-abu muda
+        fillColor: Color(0xFFFDFDFD),
         contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -242,7 +252,6 @@ Container(
     );
   }
 
-  // Input Field Password (dengan tombol mata)
   Widget _buildPasswordField({
     required TextEditingController controller,
     required String hintText,
@@ -252,6 +261,12 @@ Container(
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$hintText tidak boleh kosong';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
@@ -277,7 +292,6 @@ Container(
     );
   }
 
-  // Garis Pemisah "Atau daftar menggunakan"
   Widget _buildDivider() {
     return Row(
       children: [
