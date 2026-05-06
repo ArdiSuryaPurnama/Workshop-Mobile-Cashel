@@ -1,3 +1,4 @@
+import 'package:chasel/features/customer/presentation/screens/keranjang_page.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
@@ -85,33 +86,36 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                   const SizedBox(height: 20),
 
                   // Atur Jumlah di dalam Pop-up
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Jumlah", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (jumlah > 1) {
-                                setModalState(() => jumlah--);
-                                setState(() => jumlah--);
-                              }
-                            },
-                            icon: const Icon(Icons.remove_circle_outline, color: Colors.blue),
-                          ),
-                          Text("$jumlah", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          IconButton(
-                            onPressed: () {
-                              setModalState(() => jumlah++);
-                              setState(() => jumlah++);
-                            },
-                            icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    const Text("Jumlah", style: TextStyle(fontWeight: FontWeight.bold)),
+    Row(
+      children: [
+        // Tombol Kurang (-)
+        IconButton(
+          onPressed: () {
+            if (jumlah > 1) {
+              setModalState(() => jumlah--);
+            }
+          },
+          icon: const Icon(Icons.remove_circle_outline, color: Colors.blue),
+        ),
+        
+        // Teks Angka
+        Text("$jumlah", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        
+        // Tombol Tambah (+)
+        IconButton(
+          onPressed: () {
+            setModalState(() => jumlah++);
+          },
+          icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
+        ),
+      ],
+    ),
+  ],
+),
                   const SizedBox(height: 25),
 
                   // Tombol Konfirmasi Akhir
@@ -147,10 +151,19 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: const [
-          Icon(Icons.shopping_cart_outlined, color: Colors.black),
-          SizedBox(width: 20)
-        ],
+       // Cari bagian ini di dalam Scaffold -> AppBar
+actions: [
+  IconButton(
+    icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const KeranjangPage()),
+      );
+    },
+  ),
+  const SizedBox(width: 10)
+],
       ),
       body: Column(
         children: [
@@ -300,17 +313,25 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
             ),
             child: Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      side: const BorderSide(color: AppColors.primary),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text("Tambah ke keranjang", style: TextStyle(color: AppColors.primary)),
-                  ),
-                ),
+                // Cari bagian OutlinedButton di dalam Container sticky bottom
+Expanded(
+  child: OutlinedButton(
+    onPressed: () {
+      // Logika opsional: Simpan data ke keranjang dulu di sini jika perlu
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => KeranjangPage()),
+      );
+    },
+    style: OutlinedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      side: const BorderSide(color: AppColors.primary),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    ),
+    child: const Text("Tambah ke keranjang", style: TextStyle(color: AppColors.primary)),
+  ),
+),
                 const SizedBox(width: 15),
                 Expanded(
                   child: CustomButton(
