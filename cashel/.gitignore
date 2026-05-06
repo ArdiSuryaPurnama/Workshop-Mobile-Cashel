@@ -10,3 +10,10 @@ build/
 local.properties
 **/android/**/generated/
 **/android/app/src/main/res/drawable-*/
+
+.dart_tool/
+build/
+android/local.properties
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+macos/Flutter/ephemeral/

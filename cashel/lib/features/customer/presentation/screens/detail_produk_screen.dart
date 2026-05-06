@@ -12,15 +12,134 @@ class DetailProdukScreen extends StatefulWidget {
 class _DetailProdukScreenState extends State<DetailProdukScreen> {
   int jumlah = 1;
   int selectedVariant = 0; // Default ke index 0 (2B)
-
   final List<String> variants = ["2B", "4B", "6B", "HB"];
+
+  // --- FUNGSI POP-UP KONFIRMASI (MODAL BOTTOM SHEET) ---
+  void _showConfirmationSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      builder: (context) {
+        // Menggunakan StatefulBuilder agar angka jumlah & varian di pop-up bisa berubah saat diklik
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header Pop-up: Gambar kecil & Info Harga
+                  Row(
+                    children: [
+                      Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Image.asset('assets/pensil.png', fit: BoxFit.contain),
+                      ),
+                      const SizedBox(width: 15),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Rp.5100", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text("Stok: 255", style: TextStyle(color: Colors.grey)),
+                        ],
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close),
+                      )
+                    ],
+                  ),
+                  const Divider(height: 30),
+
+                  // Pilih Varian di dalam Pop-up
+                  const Text("Varian", style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    children: List.generate(variants.length, (index) {
+                      bool isSelected = selectedVariant == index;
+                      return ChoiceChip(
+                        label: Text(variants[index]),
+                        selected: isSelected,
+                        onSelected: (val) {
+                          // Gunakan setModalState untuk update UI di dalam Pop-up
+                          setModalState(() => selectedVariant = index);
+                          // Gunakan setState untuk sinkronisasi dengan halaman detail di belakangnya
+                          setState(() => selectedVariant = index);
+                        },
+                        selectedColor: Colors.blue[50],
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Atur Jumlah di dalam Pop-up
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Jumlah", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              if (jumlah > 1) {
+                                setModalState(() => jumlah--);
+                                setState(() => jumlah--);
+                              }
+                            },
+                            icon: const Icon(Icons.remove_circle_outline, color: Colors.blue),
+                          ),
+                          Text("$jumlah", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          IconButton(
+                            onPressed: () {
+                              setModalState(() => jumlah++);
+                              setState(() => jumlah++);
+                            },
+                            icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+
+                  // Tombol Konfirmasi Akhir
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      text: "Konfirmasi",
+                      onPressed: () {
+                        // Nanti di sini arahkan ke halaman Checkout
+                        print("Terkonfirmasi: ${variants[selectedVariant]} sejumlah $jumlah");
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      // extendBodyBehindAppBar agar gambar bisa mentok ke atas melewati appbar
-      extendBodyBehindAppBar: true, 
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -35,13 +154,12 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
       ),
       body: Column(
         children: [
-          // Expanded digunakan agar SingleChildScrollView mengambil sisa ruang di atas tombol
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 1. Gambar Produk dengan Background Melengkung (Sesuai Gambar 2)
+                  // 1. Gambar Produk
                   Container(
                     height: 380,
                     width: double.infinity,
@@ -54,11 +172,11 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                     ),
                     child: Center(
                       child: Image.asset(
-                        'assets/pensil.png', // Sesuaikan path asset
+                        'assets/pensil.png',
                         height: 280,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.image, size: 100, color: Colors.grey),
+                            const Icon(Icons.image, size: 100, color: Colors.grey),
                       ),
                     ),
                   ),
@@ -68,7 +186,7 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // 2. Nama & Harga Produk (Sesuai Layout Gambar 2)
+                        // 2. Nama & Harga
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -87,7 +205,7 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                         Text("Varian", style: TextStyle(color: Colors.grey[600])),
                         const SizedBox(height: 10),
 
-                        // 3. List Variant
+                        // 3. List Variant (Halaman Utama)
                         Row(
                           children: List.generate(variants.length, (index) {
                             bool isSelected = selectedVariant == index;
@@ -118,7 +236,7 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                         const SizedBox(height: 25),
                         Text("Jumlah", style: TextStyle(color: Colors.grey[600])),
                         
-                        // 4. Counter Jumlah
+                        // 4. Counter Jumlah (Halaman Utama)
                         Row(
                           children: [
                             IconButton(
@@ -171,7 +289,7 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
             ),
           ),
 
-          // 7. Tombol Bottom (Sticky di bawah layar)
+          // 7. Tombol Bottom (Sticky)
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -197,7 +315,10 @@ class _DetailProdukScreenState extends State<DetailProdukScreen> {
                 Expanded(
                   child: CustomButton(
                     text: "Pesan Sekarang",
-                    onPressed: () {},
+                    onPressed: () {
+                      // DI SINI LETAK PEMANGGILANNYA
+                      _showConfirmationSheet();
+                    },
                   ),
                 ),
               ],
