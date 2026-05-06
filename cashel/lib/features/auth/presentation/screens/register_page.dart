@@ -1,214 +1,121 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Pastikan file ini ada dan berisi LoginPage
-// 1. KITA IMPORT HALAMAN KERANJANG DI SINI
-import 'package:chasel/features/customer/presentation/screens/keranjang_page.dart';
+import 'login_screen.dart';
+import '../../../../data/service/register_service.dart';
+import '../../../../data/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // GlobalKey untuk validasi form
   final _formKey = GlobalKey<FormState>();
 
-  // Controller untuk mengambil data input
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
   final _hpController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  // State untuk visibilitas password
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isLoading = false; // Variabel isLoading sudah dideklarasikan
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView( // Agar halaman bisa di-scroll saat keyboard muncul
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 20),
-                
-                // --- 1. GAMBAR ILUSTRASI ---
+                const SizedBox(height: 20),
                 Center(
                   child: Image.asset(
-                    'assets/register.png', // Ganti dengan asset lokal kamu
+                    'assets/register.png',
                     height: 180,
                     fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Container(height: 180, color: Colors.grey[200]),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
+                const Text("Register", textAlign: TextAlign.center, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
 
-                // --- 2. JUDUL ---
-                Text(
-                  "Register",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 20),
+                _buildTextField(controller: _namaController, hintText: "Nama Lengkap", icon: Icons.person_outline),
+                const SizedBox(height: 12),
+                _buildTextField(controller: _emailController, hintText: "Email", icon: Icons.email_outlined, keyboardType: TextInputType.emailAddress),
+                const SizedBox(height: 12),
+                _buildTextField(controller: _hpController, hintText: "Nomor HP", icon: Icons.phone_android_outlined, keyboardType: TextInputType.phone),
+                const SizedBox(height: 12),
 
-                // --- 3. INPUT FIELDS ---
-                // Nama Lengkap
-                _buildTextField(
-                  controller: _namaController,
-                  hintText: "Nama Lengkap",
-                  icon: Icons.person_outline,
-                ),
-                SizedBox(height: 12),
-
-                // Email
-                _buildTextField(
-                  controller: _emailController,
-                  hintText: "Email",
-                  icon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                SizedBox(height: 12),
-
-                // Nomor HP
-                _buildTextField(
-                  controller: _hpController,
-                  hintText: "Nomor HP",
-                  icon: Icons.phone_android_outlined,
-                  keyboardType: TextInputType.phone,
-                ),
-                SizedBox(height: 12),
-
-                // Password
                 _buildPasswordField(
                   controller: _passwordController,
                   hintText: "Password",
                   obscureText: _obscurePassword,
-                  toggleVisibility: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
+                  toggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
                 ),
-                SizedBox(height: 12),
-
-                // Konfirmasi Password
+                const SizedBox(height: 12),
                 _buildPasswordField(
                   controller: _confirmPasswordController,
                   hintText: "Konfirmasi Password",
                   obscureText: _obscureConfirmPassword,
-                  toggleVisibility: () {
-                    setState(() {
-                      _obscureConfirmPassword = !_obscureConfirmPassword;
-                    });
-                  },
+                  toggleVisibility: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                // --- 4. TOMBOL MENDAFTAR (BIRU) ---
-                ElevatedButton(
-                  onPressed: () {
-                    // Validasi form (supaya inputan tidak boleh kosong)
-                    if (_formKey.currentState!.validate()) {
-                      
-                      // 2. KITA PINDAH KE HALAMAN KERANJANG DI SINI
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const KeranjangPage(), 
-                        ), 
-                      );
-                      
-                    }
-                  },
-                  child: Text("Mendaftar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF3B95DE), // Warna biru Cashel
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    elevation: 0,
+                _isLoading 
+                ? const Center(child: CircularProgressIndicator())
+                : ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        if (_passwordController.text != _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password tidak cocok!")));
+                          return;
+                        }
+
+                        setState(() => _isLoading = true);
+                        RegisterService authService = RegisterService();
+                        UserModel response = await authService.register(
+                          nama: _namaController.text,
+                          email: _emailController.text,
+                          noHp: _hpController.text,
+                          password: _passwordController.text,
+                          alamat: "-", 
+                        );
+
+                        setState(() => _isLoading = false);
+
+                        if (response.status == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Registrasi Berhasil!")));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.message)));
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3B95DE),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text("Mendaftar"),
                   ),
-                ),
-                SizedBox(height: 25),
-
-                // --- 5. PEMISAH 'ATAU DAFTAR MENGGUNAKAN' ---
+                const SizedBox(height: 25),
                 _buildDivider(),
-                SizedBox(height: 20),
-
-                // --- 6. TOMBOL GOOGLE & FACEBOOK ---
-                // --- TOMBOL GOOGLE MANUAL ---
-                Container(
-                  width: double.infinity,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red), 
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.g_mobiledata, color: Colors.red, size: 40),
-                      SizedBox(width: 10),
-                      Text("Google", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-
+                const SizedBox(height: 20),
+                _socialButton(icon: Icons.g_mobiledata, text: "Google", color: Colors.red),
                 const SizedBox(height: 15),
-
-                // --- TOMBOL FACEBOOK MANUAL ---
-                Container(
-                  width: double.infinity,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue), 
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.facebook, color: Colors.blue, size: 30),
-                      SizedBox(width: 10),
-                      Text("Facebook", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                // --- 7. TULISAN SUDAH PUNYA AKUN ---
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Sudah punya akun? silahkan "),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          );
-                        },
-                        child: const Text(
-                          "masuk",
-                          style: TextStyle(
-                            color: Colors.blue, 
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
+                _socialButton(icon: Icons.facebook, text: "Facebook", color: Colors.blue),
+                const SizedBox(height: 20),
+                _loginRedirect(),
               ],
             ),
           ),
@@ -217,91 +124,67 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  // --- WIDGET HELPER ---
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
+  // --- WIDGET HELPERS ---
+  Widget _buildTextField({required TextEditingController controller, required String hintText, required IconData icon, TextInputType keyboardType = TextInputType.text}) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return '$hintText tidak boleh kosong';
-        }
-        return null;
-      },
+      validator: (value) => value == null || value.isEmpty ? "$hintText tidak boleh kosong" : null,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(icon, color: Colors.grey),
         filled: true,
-        fillColor: Color(0xFFFDFDFD),
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[200]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[200]!),
-        ),
+        fillColor: const Color(0xFFFDFDFD),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[200]!)),
       ),
     );
   }
 
-  Widget _buildPasswordField({
-    required TextEditingController controller,
-    required String hintText,
-    required bool obscureText,
-    required VoidCallback toggleVisibility,
-  }) {
+  Widget _buildPasswordField({required TextEditingController controller, required String hintText, required bool obscureText, required VoidCallback toggleVisibility}) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return '$hintText tidak boleh kosong';
-        }
-        return null;
-      },
+      validator: (value) => value == null || value.length < 6 ? "Password minimal 6 karakter" : null,
       decoration: InputDecoration(
         hintText: hintText,
-        prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
-        suffixIcon: IconButton(
-          icon: Icon(
-            obscureText ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey,
-          ),
-          onPressed: toggleVisibility,
-        ),
+        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
+        suffixIcon: IconButton(icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off, color: Colors.grey), onPressed: toggleVisibility),
         filled: true,
-        fillColor: Color(0xFFFDFDFD),
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[200]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey[200]!),
-        ),
+        fillColor: const Color(0xFFFDFDFD),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[200]!)),
       ),
     );
   }
 
   Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text("Atau daftar menggunakan", style: TextStyle(color: Colors.grey, fontSize: 12)),
+    return const Row(children: [
+      Expanded(child: Divider()),
+      Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Text("Atau daftar menggunakan", style: TextStyle(color: Colors.grey, fontSize: 12))),
+      Expanded(child: Divider()),
+    ]);
+  }
+
+  Widget _socialButton({required IconData icon, required String text, required Color color}) {
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(border: Border.all(color: color), borderRadius: BorderRadius.circular(12)),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Icon(icon, color: color, size: 30),
+        const SizedBox(width: 10),
+        Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+      ]),
+    );
+  }
+
+  Widget _loginRedirect() {
+    return Center(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text("Sudah punya akun? silahkan "),
+        GestureDetector(
+          onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
+          child: const Text("masuk", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
         ),
-        Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
-      ],
+      ]),
     );
   }
 }
