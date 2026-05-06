@@ -21,7 +21,7 @@ class LoginService {
         return UserModel.fromJson(jsonDecode(response.body));
       } else {
         return UserModel(
-          status: "error", 
+          status: "error",
           message: "Server Error: ${response.statusCode}"
         );
       }

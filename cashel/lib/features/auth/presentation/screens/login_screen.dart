@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import 'package:chasel/shared/widgets/custom_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +22,30 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
   String? errorMessage; // Variabel untuk menyimpan pesan error di atas
+
+  Future<void> signInWithGoogle() async {
+  try {
+    GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+    final userCredential =
+        await FirebaseAuth.instance.signInWithPopup(authProvider);
+
+    if (userCredential.user != null) {
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const DetailProdukScreen(),
+        ),
+      );
+    }
+  } catch (e) {
+    setState(() {
+      errorMessage = "Google login gagal: $e";
+    });
+  }
+}
 
   void handleLogin() async {
     setState(() {
@@ -181,9 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {
-          // Logika login social nanti di sini
-        },
+        onTap: () async {
+  await signInWithGoogle();
+},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
