@@ -1,0 +1,12 @@
+# Mengabaikan file sistem Flutter & Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Mengabaikan file sistem Android
+.gradle/
+local.properties
+**/android/**/generated/
+**/android/app/src/main/res/drawable-*/
