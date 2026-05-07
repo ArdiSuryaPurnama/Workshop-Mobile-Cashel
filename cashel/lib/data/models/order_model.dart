@@ -23,18 +23,20 @@ class OrderModel{
     required this.alamat,
     required this.items,
     
-   
     required this.tanggal,
     required this.status,
     required this.email,
     required this.tanggalRegristasi,
     
     required this.metodePembayaran,
-   
     required this.ongkir,
     required this.statusColor
   });
-  int get totalHarga => items.fold(0, (sum, item) => sum + (item.harga * item.jumlah));
+  // Pastikan baris ini sudah benar
+int get totalHarga => items.fold(0, (sum, item) {
+  // Kita pastikan item diperlakukan sebagai OrderItemModel
+  return sum + (item.harga * item.jumlah);
+});
 
 
 }
