@@ -1,3 +1,4 @@
+import 'package:chasel/features/admin/screen/admin_main_screen.dart';
 import 'package:chasel/features/auth/presentation/screens/register_page.dart';
 import 'package:chasel/features/customer/presentation/screens/detail_produk_screen.dart';
 import '../../../../data/service/login_service.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import 'package:chasel/shared/widgets/custom_textfield.dart';
+// Contoh path, sesuaikan dengan lokasi file admin kamu
+import 'package:chasel/features/admin/screen/admin_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -50,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void handleLogin() async {
     setState(() {
       isLoading = true;
-      errorMessage = null; // Reset error setiap kali mencoba login
+      errorMessage = null;
     });
 
     try {
@@ -63,16 +66,22 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = false);
 
       if (response.status == 'success') {
-        if (response.data!.role == 'admin') {
-          print("Masuk sebagai Admin");
+        String userRole = response.data?.role ?? 'customer';
+
+        if (userRole == 'admin') {
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const AdminMainScreen()),
+          );
         } else {
+          if (!mounted) return;
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const DetailProdukScreen()),
           );
         }
       } else {
-        // Tampilkan error di bagian atas
         setState(() => errorMessage = "Harap Periksa kembali Email atau Password yang anda masukkan!!!");
       }
     } catch (e) {
