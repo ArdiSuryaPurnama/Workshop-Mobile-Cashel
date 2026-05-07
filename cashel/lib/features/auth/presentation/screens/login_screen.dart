@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../shared/widgets/custom_button.dart';
 import 'package:chasel/shared/widgets/custom_textfield.dart';
-// Contoh path, sesuaikan dengan lokasi file admin kamu
 import 'package:chasel/features/admin/screen/admin_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,31 +22,32 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-  String? errorMessage; // Variabel untuk menyimpan pesan error di atas
+  bool _isObscure = true; // Status awal password tersembunyi
+  String? errorMessage;
 
   Future<void> signInWithGoogle() async {
-  try {
-    GoogleAuthProvider authProvider = GoogleAuthProvider();
+    try {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
 
-    final userCredential =
-        await FirebaseAuth.instance.signInWithPopup(authProvider);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithPopup(authProvider);
 
-    if (userCredential.user != null) {
-      if (!mounted) return;
+      if (userCredential.user != null) {
+        if (!mounted) return;
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const DetailProdukScreen(),
-        ),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const DetailProdukScreen(),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = "Google login gagal: $e";
+      });
     }
-  } catch (e) {
-    setState(() {
-      errorMessage = "Google login gagal: $e";
-    });
   }
-}
 
   void handleLogin() async {
     setState(() {
@@ -101,13 +100,13 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              // --- 1. ERROR BANNER (MUNCUL DI PALING ATAS) ---
+              // ERROR BANNER
               if (errorMessage != null)
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE57373), // Warna merah sesuai gambar
+                    color: const Color(0xFFE57373),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -127,30 +126,52 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text("Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
               const SizedBox(height: 25),
 
-              CustomTextField(hint: "Email", controller: emailController),
+              CustomTextField(hint: "Email", 
+              controller: emailController),
+
               const SizedBox(height: 15),
-              CustomTextField(hint: "Password", isPassword: true, controller: passwordController),
-              
+
+                CustomTextField(hint: "Password",
+                controller: passwordController,
+                isPassword:
+                    _isObscure, // Ini yang membuat teks jadi titik-titik
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    // Ikon berubah otomatis sesuai status _isObscure
+                    _isObscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    // Fungsi setState memberitahu Flutter untuk menggambar ulang layar
+                    setState(() {
+                      _isObscure = !_isObscure;
+                    });
+                  },
+                ),
+              ),
+
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
-                  onTap: () {}, // Tambahkan navigasi lupa password jika ada
+                  onTap: () {},
                   child: const Text("Lupa password?", style: TextStyle(color: Colors.grey)),
                 ),
               ),
               const SizedBox(height: 25),
 
               isLoading
-                ? const CircularProgressIndicator()
-                : CustomButton(
-                    text: "Masuk",
-                    onPressed: handleLogin,
-                  ),
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      text: "Masuk",
+                      onPressed: handleLogin,
+                    ),
 
               const SizedBox(height: 30),
 
-              // --- 2. DIVIDER "ATAU MASUK MENGGUNAKAN" ---
+              // DIVIDER
               Row(
                 children: [
                   const Expanded(child: Divider(thickness: 1.5)),
@@ -161,10 +182,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Expanded(child: Divider(thickness: 1.5)),
                 ],
               ),
-              
+
               const SizedBox(height: 25),
 
-              // --- 3. SOCIAL BUTTONS ---
+              // SOCIAL BUTTONS
               _buildSocialButton(
                 text: "Google",
                 iconAsset: 'assets/google-icon.png',
@@ -180,8 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               const SizedBox(height: 30),
-              
-              // --- 4. REDIRECT DAFTAR ---
+
+              // REDIRECT DAFTAR
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -203,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Helper Widget untuk tombol Social Login
   Widget _buildSocialButton({
     required String text,
     required String iconAsset,
@@ -218,8 +238,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: InkWell(
         onTap: () async {
-  await signInWithGoogle();
-},
+          await signInWithGoogle();
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

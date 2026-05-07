@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '../../../../data/service/register_service.dart';
 import '../../../../data/models/user_model.dart';
+//firebase
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,6 +24,34 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isLoading = false; // Variabel isLoading sudah dideklarasikan
+
+  Future<void> signInWithGoogle() async {
+  try {
+    GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+    final userCredential =
+        await FirebaseAuth.instance.signInWithPopup(authProvider);
+
+    if (userCredential.user != null) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Login Google berhasil")),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+        ),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Google Sign-In gagal: $e")),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +141,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 25),
                 _buildDivider(),
                 const SizedBox(height: 20),
-                _socialButton(icon: Icons.g_mobiledata, text: "Google", color: Colors.red),
+                _socialButton(
+                  icon: Icons.g_mobiledata,
+                  text: "Google",
+                  color: Colors.red,
+                  onTap: () async {
+                    await signInWithGoogle();
+                  },
+                ),
                 const SizedBox(height: 15),
-                _socialButton(icon: Icons.facebook, text: "Facebook", color: Colors.blue),
+                
+                _socialButton(
+                  icon: Icons.facebook,
+                  text: "Facebook",
+                  color: Colors.blue,
+                  onTap: () {},
+                ),
                 const SizedBox(height: 20),
                 _loginRedirect(),
               ],
@@ -164,15 +207,32 @@ class _RegisterPageState extends State<RegisterPage> {
     ]);
   }
 
-  Widget _socialButton({required IconData icon, required String text, required Color color}) {
-    return Container(
-      height: 55,
-      decoration: BoxDecoration(border: Border.all(color: color), borderRadius: BorderRadius.circular(12)),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(icon, color: color, size: 30),
-        const SizedBox(width: 10),
-        Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
-      ]),
+  Widget _socialButton({
+    required IconData icon,
+    required String text,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 55,
+        decoration: BoxDecoration(
+          border: Border.all(color: color),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 30),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
