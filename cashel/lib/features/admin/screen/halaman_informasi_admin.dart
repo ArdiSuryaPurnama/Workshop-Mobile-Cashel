@@ -74,9 +74,9 @@ class _ProfilAdminScreenState extends State<ProfilAdminScreen> {
               ),
               child: Column(
                 children: [
-                  _buildInternalRow('Nama', 'Karang Keanu'),
+                  _buildInternalRow('Nama', 'Recon'),
                   const Divider(height: 1),
-                  _buildInternalRow('Email', 'karang@gmail.com'),
+                  _buildInternalRow('Email', 'reconcorps5@gmail.com'),
                   const Divider(height: 1),
                   _buildInternalRow('Alamat', 'Jl. Panglima Sudirman, Mangundikaran, Nganjuk, Jawa Timur 64419'),
                 ],
@@ -87,6 +87,10 @@ class _ProfilAdminScreenState extends State<ProfilAdminScreen> {
             const InformasiPenggunaCard(
               label: 'Tanggal registrasi', 
               value: '2 Maret 2024'
+            ),
+            const InformasiPenggunaCard(
+              label: 'Nomor Telepon', 
+              value: '087854662322'
             ),
             
             const SizedBox(height: 30),
