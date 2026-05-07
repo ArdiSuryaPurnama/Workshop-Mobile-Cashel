@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../auth/presentation/screens/login_screen.dart'; // Tambahkan import untuk LoginScreen
 
 class ProfilAdminScreen extends StatefulWidget {
   const ProfilAdminScreen({super.key});
@@ -110,7 +111,34 @@ class _ProfilAdminScreenState extends State<ProfilAdminScreen> {
                   ),
                 ),
                 onPressed: () {
-                  // Tambahkan Navigator.pushAndRemoveUntil ke Login disini
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Konfirmasi Logout'),
+                        content: const Text('Apakah Anda yakin ingin logout?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Tutup dialog
+                            },
+                            child: const Text('Tidak'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Tutup dialog
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                (Route<dynamic> route) => false, // Hapus semua route sebelumnya
+                              );
+                            },
+                            child: const Text('Ya'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: const Text(
                   'Log Out',
