@@ -10,6 +10,8 @@ import 'package:chasel/shared/widgets/custom_textfield.dart';
 import 'package:chasel/features/admin/screen/admin_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:chasel/features/customer/presentation/screens/tampilan_awal_page.dart';
+// Sesuaikan path foldernya jika berbeda
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -77,7 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
           if (!mounted) return;
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const DetailProdukScreen()),
+            MaterialPageRoute(
+              builder: (_) => const TampilanAwalPage(),
+            ), // Pastikan class-nya TampilanAwalPage
           );
         }
       } else {

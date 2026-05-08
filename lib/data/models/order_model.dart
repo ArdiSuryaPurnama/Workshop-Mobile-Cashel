@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'order_item_model.dart';
+import 'package:cashel/data/models/order_item_model.dart';
 
 class OrderModel{
   final String id;

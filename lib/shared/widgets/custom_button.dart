@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cashel/core/constants/colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -12,29 +11,24 @@ class CustomButton extends StatelessWidget {
   });
 
   @override
-  // Di dalam file custom_button.dart
-Widget build(BuildContext context) {
-  return SizedBox(
-    width: double.infinity,
-    height: 55,
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue, // Warna background tombol
-        foregroundColor: Colors.white, // INI AKAN MEMBUAT TEKS JADI PUTIH
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity, // Agar tombol selebar layar
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF3B95DE), // Warna biru default
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          // color: Colors.white, // Bisa juga paksa putih di sini
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 }
