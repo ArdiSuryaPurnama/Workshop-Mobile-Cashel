@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 import 'login_screen.dart';
 import '../../../../data/service/register_service.dart';
 import '../../../../data/models/user_model.dart';
+import '../../../../features/customer/presentation/screens/tampilan_awal_page.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,6 +27,82 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
+
+Future<void> signInWithGoogle() async {
+  try {
+
+    GoogleAuthProvider authProvider =
+        GoogleAuthProvider();
+
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithPopup(
+      authProvider,
+    );
+
+    User? user = userCredential.user;
+
+    if (user != null) {
+
+      // KIRIM DATA KE PHP
+      final response = await http.post(
+        Uri.parse(
+          "http://localhost/api_cashel/auth/google_login.php",
+        ),
+        body: {
+          "nama": user.displayName ?? "",
+          "email": user.email ?? "",
+          "uid": user.uid,
+        },
+      );
+
+      print(response.body);
+
+      // NOTIF SUKSES
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            "Login berhasil!",
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      // PINDAH HALAMAN
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TampilanAwalPage(),
+        ),
+      );
+    }
+
+  } catch (e) {
+
+    print(e);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Google Sign-In gagal: $e",
+        ),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text("Registrasi Berhasil!")));
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -149,21 +230,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 20),
                 
                 // TOMBOL SOSIAL MEDIA (Hanya UI, Tanpa Firebase)
-                _socialButton(
-                  icon: Icons.g_mobiledata,
+                
+_socialButton(
                   text: "Google",
-                  color: Colors.red,
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Fitur Google Sign-In via PHP sedang dikembangkan")));
+                  iconAsset:
+                      'assets/images/google-icon.png', // Pastikan file ini ada di folder assets
+                  borderColor: Colors.redAccent,
+                  textColor: Colors.redAccent,
+                  onTap: () async {
+                    await signInWithGoogle(); // Fungsi login Google kamu
                   },
-                ),
-                const SizedBox(height: 15),
-                _socialButton(
-                  icon: Icons.facebook,
-                  text: "Facebook",
-                  color: Colors.blue,
-                  onTap: () {},
                 ),
                 const SizedBox(height: 20),
                 _loginRedirect(),
@@ -238,40 +314,51 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _socialButton({
-    required IconData icon,
-    required String text,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 55,
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 30),
-            const SizedBox(width: 10),
-            Text(
-              text,
-              style: TextStyle(color: color, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+  required String text,
+  required String iconAsset, // Sekarang menggunakan path gambar
+  required Color borderColor,
+  required Color textColor,
+  required VoidCallback onTap,
+}) {
+  return Container(
+    height: 55,
+    decoration: BoxDecoration(
+      border: Border.all(
+        color: borderColor,
+        width: 1.5,
       ),
-    );
-  }
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            iconAsset, // Menampilkan logo Google/Facebook dari folder assets
+            height: 24,
+          ),
+          const SizedBox(width: 12),
+          Text(
+            text,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
   Widget _loginRedirect() {
     return Center(
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         const Text("Sudah punya akun? silahkan "),
         GestureDetector(
-          onTap: () => Navigator.pushReplacement(context,
+          onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginScreen())),
           child: const Text("masuk",
               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),

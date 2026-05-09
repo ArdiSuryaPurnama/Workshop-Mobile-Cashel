@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+
 import '../../../../features/admin/screen/admin_main_screen.dart';
 import '.././screens/register_page.dart';
-import '../../../../features/customer/presentation/screens/detail_produk_screen.dart';
+
 import '../../../../data/service/login_service.dart';
 import '../../../../data/models/user_model.dart';
+
 import '../../../../core/constants/colors.dart';
+
 import '../../../../shared/widgets/custom_button.dart';
 import '../../../../shared/widgets/custom_textfield.dart';
+
 import '../../../../features/customer/presentation/screens/tampilan_awal_page.dart';
+
+// ... (Bagian import tetap sama)
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,11 +28,66 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   bool isLoading = false;
   bool _isObscure = true;
   String? errorMessage;
 
-  // FUNGSI LOGIN VIA PHP
+  // =========================
+  // LOGIN GOOGLE
+  // =========================
+  Future<void> signInWithGoogle() async {
+    try {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(authProvider);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        final response = await http.post(
+          Uri.parse("http://localhost/api_cashel/auth/google_login.php"),
+          body: {
+            "nama": user.displayName ?? "",
+            "email": user.email ?? "",
+            "uid": user.uid,
+          },
+        );
+
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Login berhasil!"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(20),
+            // GANTI borderRadius MENJADI shape SEPERTI DI BAWAH:
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const TampilanAwalPage()),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Google Sign-In gagal: $e"),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(20),
+        ),
+      );
+    }
+  }
+
+  // =========================
+  // LOGIN PHP MYSQL
+  // =========================
   void handleLogin() async {
     setState(() {
       isLoading = true;
@@ -37,7 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordController.text,
       );
 
-      // Cek apakah widget masih terpasang sebelum setState
       if (!mounted) return;
 
       setState(() => isLoading = false);
@@ -46,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
         String userRole = response.data?.role ?? 'customer';
 
         if (userRole == 'admin') {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const AdminMainScreen()),
           );
@@ -57,9 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       } else {
-        setState(() => errorMessage = response.message.isNotEmpty 
-          ? response.message 
-          : "Harap Periksa kembali Email atau Password yang anda masukkan!!!");
+        setState(() {
+          errorMessage = response.message.isNotEmpty ? response.message : "Email atau Password salah!";
+        });
       }
     } catch (e) {
       if (!mounted) return;
@@ -101,16 +164,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.contain,
               ),
               const SizedBox(height: 20),
-              const Text("Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              const Text(
+                "Login",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 25),
 
               CustomTextField(
                 hint: "Email",
                 controller: emailController,
               ),
-
               const SizedBox(height: 15),
-
               CustomTextField(
                 hint: "Password",
                 controller: passwordController,
@@ -120,11 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                     color: Colors.grey,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isObscure = !_isObscure;
-                    });
-                  },
+                  onPressed: () => setState(() => _isObscure = !_isObscure),
                 ),
               ),
 
@@ -136,74 +196,50 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text("Lupa password?", style: TextStyle(color: Colors.grey)),
                 ),
               ),
-              const SizedBox(height: 25),
 
+              const SizedBox(height: 25),
               isLoading
                   ? const CircularProgressIndicator()
-                  : CustomButton(
-                      text: "Masuk",
-                      onPressed: handleLogin,
-                    ),
+                  : CustomButton(text: "Masuk", onPressed: handleLogin),
 
               const SizedBox(height: 30),
-
-              Row(
-                children: [
-                  const Expanded(child: Divider(thickness: 1.5)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("Atau masuk menggunakan", 
-                      style: TextStyle(color: Colors.grey[400], fontSize: 12)),
-                  ),
-                  const Expanded(child: Divider(thickness: 1.5)),
-                ],
-              ),
-
+              _buildDivider(),
               const SizedBox(height: 25),
 
+              // TOMBOL SOSIAL MEDIA (Hanya Google)
               _buildSocialButton(
                 text: "Google",
                 iconAsset: 'assets/images/google-icon.png',
                 borderColor: Colors.redAccent,
                 textColor: Colors.redAccent,
-                onTap: () {
-                  // Tambahkan logika Login Google via PHP di sini nanti
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Login Google via PHP belum diimplementasikan"))
-                  );
-                },
-              ),
-              const SizedBox(height: 15),
-              _buildSocialButton(
-                text: "Facebook",
-                iconAsset: 'assets/images/facebook-icon.png',
-                borderColor: const Color(0xFF3B95DE),
-                textColor: const Color(0xFF3B95DE),
-                onTap: () {
-                  // Tambahkan logika Login Facebook via PHP di sini nanti
-                },
+                onTap: () async => await signInWithGoogle(),
               ),
 
               const SizedBox(height: 30),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Belum punya akun? "),
-                  InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterPage())),
-                    child: const Text(
-                      "Mendaftar sekarang",
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
+              _buildRegisterRedirect(),
               const SizedBox(height: 20),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // --- WIDGET HELPERS ---
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        const Expanded(child: Divider(thickness: 1.5)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            "Atau masuk menggunakan",
+            style: TextStyle(color: Colors.grey[400], fontSize: 12),
+          ),
+        ),
+        const Expanded(child: Divider(thickness: 1.5)),
+      ],
     );
   }
 
@@ -234,6 +270,27 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRegisterRedirect() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Belum punya akun? "),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const RegisterPage()),
+            );
+          },
+          child: const Text(
+            "Mendaftar sekarang",
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 }
