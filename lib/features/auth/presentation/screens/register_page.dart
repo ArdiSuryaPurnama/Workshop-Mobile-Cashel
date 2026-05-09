@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:http/http.dart' as http;
 
 import 'login_screen.dart';
 import '../../../../data/service/register_service.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../../features/customer/presentation/screens/tampilan_awal_page.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -28,81 +27,68 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
 
-Future<void> signInWithGoogle() async {
-  try {
+  Future<void> signInWithGoogle() async {
+    try {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
 
-    GoogleAuthProvider authProvider =
-        GoogleAuthProvider();
-
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithPopup(
-      authProvider,
-    );
-
-    User? user = userCredential.user;
-
-    if (user != null) {
-
-      // KIRIM DATA KE PHP
-      final response = await http.post(
-        Uri.parse(
-          "http://localhost/api_cashel/auth/google_login.php",
-        ),
-        body: {
-          "nama": user.displayName ?? "",
-          "email": user.email ?? "",
-          "uid": user.uid,
-        },
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(
+        authProvider,
       );
 
-      print(response.body);
+      User? user = userCredential.user;
 
-      // NOTIF SUKSES
+      if (user != null) {
+        // KIRIM DATA KE PHP
+        final response = await http.post(
+          Uri.parse("http://localhost/api_cashel/auth/google_login.php"),
+          body: {
+            "nama": user.displayName ?? "",
+            "email": user.email ?? "",
+            "uid": user.uid,
+          },
+        );
+
+        print(response.body);
+
+        // NOTIF SUKSES
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Login berhasil!"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+
+        // PINDAH HALAMAN
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TampilanAwalPage(),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
-            "Login berhasil!",
-          ),
-          backgroundColor: Colors.green,
+          content: Text("Google Sign-In gagal: $e"),
+          backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
           margin: const EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-
-      // PINDAH HALAMAN
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const TampilanAwalPage(),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
-
-  } catch (e) {
-
-    print(e);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          "Google Sign-In gagal: $e",
-        ),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -127,27 +113,34 @@ Future<void> signInWithGoogle() async {
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Text("Register",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                const Text(
+                  "Register",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 20),
 
                 _buildTextField(
-                    controller: _namaController,
-                    hintText: "Nama Lengkap",
-                    icon: Icons.person_outline),
+                  controller: _namaController,
+                  hintText: "Nama Lengkap",
+                  icon: Icons.person_outline,
+                ),
                 const SizedBox(height: 12),
+
                 _buildTextField(
-                    controller: _emailController,
-                    hintText: "Email",
-                    icon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress),
+                  controller: _emailController,
+                  hintText: "Email",
+                  icon: Icons.email_outlined,
+                  keyboardType: TextInputType.emailAddress,
+                ),
                 const SizedBox(height: 12),
+
                 _buildTextField(
-                    controller: _hpController,
-                    hintText: "Nomor HP",
-                    icon: Icons.phone_android_outlined,
-                    keyboardType: TextInputType.phone),
+                  controller: _hpController,
+                  hintText: "Nomor HP",
+                  icon: Icons.phone_android_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
                 const SizedBox(height: 12),
 
                 _buildPasswordField(
@@ -158,12 +151,14 @@ Future<void> signInWithGoogle() async {
                       setState(() => _obscurePassword = !_obscurePassword),
                 ),
                 const SizedBox(height: 12),
+
                 _buildPasswordField(
                   controller: _confirmPasswordController,
                   hintText: "Konfirmasi Password",
                   obscureText: _obscureConfirmPassword,
                   toggleVisibility: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword),
+                    () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -175,13 +170,15 @@ Future<void> signInWithGoogle() async {
                             if (_passwordController.text !=
                                 _confirmPasswordController.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Password tidak cocok!")));
+                                const SnackBar(
+                                  content: Text("Password tidak cocok!"),
+                                ),
+                              );
                               return;
                             }
 
                             setState(() => _isLoading = true);
-                            
+
                             try {
                               RegisterService authService = RegisterService();
                               UserModel response = await authService.register(
@@ -197,22 +194,29 @@ Future<void> signInWithGoogle() async {
 
                               if (response.status == 'success') {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Registrasi Berhasil!")));
+                                  const SnackBar(
+                                    content: Text("Registrasi Berhasil!"),
+                                  ),
+                                );
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginScreen()));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ),
+                                );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(response.message)));
+                                  SnackBar(content: Text(response.message)),
+                                );
                               }
                             } catch (e) {
                               if (!mounted) return;
                               setState(() => _isLoading = false);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Gagal terhubung ke server: $e")));
+                                SnackBar(
+                                  content: Text("Gagal terhubung ke server: $e"),
+                                ),
+                              );
                             }
                           }
                         },
@@ -221,27 +225,28 @@ Future<void> signInWithGoogle() async {
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         child: const Text("Mendaftar"),
                       ),
                 const SizedBox(height: 25),
+
                 _buildDivider(),
                 const SizedBox(height: 20),
-                
+
                 // TOMBOL SOSIAL MEDIA (Hanya UI, Tanpa Firebase)
-                
-_socialButton(
+                _socialButton(
                   text: "Google",
-                  iconAsset:
-                      'assets/images/google-icon.png', // Pastikan file ini ada di folder assets
+                  iconAsset: 'assets/images/google-icon.png',
                   borderColor: Colors.redAccent,
                   textColor: Colors.redAccent,
                   onTap: () async {
-                    await signInWithGoogle(); // Fungsi login Google kamu
+                    await signInWithGoogle();
                   },
                 ),
                 const SizedBox(height: 20),
+
                 _loginRedirect(),
               ],
             ),
@@ -252,11 +257,12 @@ _socialButton(
   }
 
   // --- WIDGET HELPERS ---
-  Widget _buildTextField(
-      {required TextEditingController controller,
-      required String hintText,
-      required IconData icon,
-      TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
@@ -269,17 +275,19 @@ _socialButton(
         filled: true,
         fillColor: const Color(0xFFFDFDFD),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.grey[200]!)),
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey[200]!),
+        ),
       ),
     );
   }
 
-  Widget _buildPasswordField(
-      {required TextEditingController controller,
-      required String hintText,
-      required bool obscureText,
-      required VoidCallback toggleVisibility}) {
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required String hintText,
+    required bool obscureText,
+    required VoidCallback toggleVisibility,
+  }) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
@@ -290,80 +298,99 @@ _socialButton(
         hintText: hintText,
         prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
         suffixIcon: IconButton(
-            icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off,
-                color: Colors.grey),
-            onPressed: toggleVisibility),
+          icon: Icon(
+            obscureText ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+          onPressed: toggleVisibility,
+        ),
         filled: true,
         fillColor: const Color(0xFFFDFDFD),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.grey[200]!)),
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey[200]!),
+        ),
       ),
     );
   }
 
   Widget _buildDivider() {
-    return const Row(children: [
-      Expanded(child: Divider()),
-      Padding(
+    return const Row(
+      children: [
+        Expanded(child: Divider()),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Text("Atau daftar menggunakan",
-              style: TextStyle(color: Colors.grey, fontSize: 12))),
-      Expanded(child: Divider()),
-    ]);
+          child: Text(
+            "Atau daftar menggunakan",
+            style: TextStyle(color: Colors.grey, fontSize: 12),
+          ),
+        ),
+        Expanded(child: Divider()),
+      ],
+    );
   }
 
   Widget _socialButton({
-  required String text,
-  required String iconAsset, // Sekarang menggunakan path gambar
-  required Color borderColor,
-  required Color textColor,
-  required VoidCallback onTap,
-}) {
-  return Container(
-    height: 55,
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: borderColor,
-        width: 1.5,
+    required String text,
+    required String iconAsset,
+    required Color borderColor,
+    required Color textColor,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: borderColor,
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(12),
       ),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: InkWell(
-      onTap: onTap,
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              iconAsset,
+              height: 24,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _loginRedirect() {
+    return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            iconAsset, // Menampilkan logo Google/Facebook dari folder assets
-            height: 24,
-          ),
-          const SizedBox(width: 12),
-          Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+          const Text("Sudah punya akun? silahkan "),
+          GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            ),
+            child: const Text(
+              "masuk",
+              style: TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
       ),
-    ),
-  );
-}
-
-  Widget _loginRedirect() {
-    return Center(
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Sudah punya akun? silahkan "),
-        GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen())),
-          child: const Text("masuk",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-        ),
-      ]),
     );
   }
 }
