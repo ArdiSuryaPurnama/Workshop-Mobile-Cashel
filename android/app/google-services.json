@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "881613464858",
+    "project_id": "chasel-app-2026",
+    "storage_bucket": "chasel-app-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881613464858:android:4d5124be7476f3456278a3",
+        "android_client_info": {
+          "package_name": "com.example.chasel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881613464858-us2ab71ir51p2qhvs69fo6kik3eneimp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwKAEj5eO8tn5SccpK57kcX6vIfptZz70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "881613464858-us2ab71ir51p2qhvs69fo6kik3eneimp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

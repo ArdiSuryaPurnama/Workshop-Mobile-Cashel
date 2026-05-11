@@ -1,0 +1,250 @@
+import 'package:flutter/material.dart';
+import 'login_screen.dart';
+import '../../../../data/service/register_service.dart';
+import '../../../../data/models/user_model.dart';
+//firebase
+import 'package:firebase_auth/firebase_auth.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _namaController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _hpController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+  bool _isLoading = false; // Variabel isLoading sudah dideklarasikan
+
+  Future<void> signInWithGoogle() async {
+  try {
+    GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+    final userCredential =
+        await FirebaseAuth.instance.signInWithPopup(authProvider);
+
+    if (userCredential.user != null) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Login Google berhasil")),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+        ),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Google Sign-In gagal: $e")),
+    );
+  }
+}
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
+                Center(
+                  child: Image.asset(
+                    'assets/register.png',
+                    height: 180,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Container(height: 180, color: Colors.grey[200]),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Text("Register", textAlign: TextAlign.center, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+
+                _buildTextField(controller: _namaController, hintText: "Nama Lengkap", icon: Icons.person_outline),
+                const SizedBox(height: 12),
+                _buildTextField(controller: _emailController, hintText: "Email", icon: Icons.email_outlined, keyboardType: TextInputType.emailAddress),
+                const SizedBox(height: 12),
+                _buildTextField(controller: _hpController, hintText: "Nomor HP", icon: Icons.phone_android_outlined, keyboardType: TextInputType.phone),
+                const SizedBox(height: 12),
+
+                _buildPasswordField(
+                  controller: _passwordController,
+                  hintText: "Password",
+                  obscureText: _obscurePassword,
+                  toggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                ),
+                const SizedBox(height: 12),
+                _buildPasswordField(
+                  controller: _confirmPasswordController,
+                  hintText: "Konfirmasi Password",
+                  obscureText: _obscureConfirmPassword,
+                  toggleVisibility: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                ),
+                const SizedBox(height: 20),
+
+                _isLoading 
+                ? const Center(child: CircularProgressIndicator())
+                : ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        if (_passwordController.text != _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password tidak cocok!")));
+                          return;
+                        }
+
+                        setState(() => _isLoading = true);
+                        RegisterService authService = RegisterService();
+                        UserModel response = await authService.register(
+                          nama: _namaController.text,
+                          email: _emailController.text,
+                          noHp: _hpController.text,
+                          password: _passwordController.text,
+                          alamat: "-", 
+                        );
+
+                        setState(() => _isLoading = false);
+
+                        if (response.status == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Registrasi Berhasil!")));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.message)));
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3B95DE),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text("Mendaftar"),
+                  ),
+                const SizedBox(height: 25),
+                _buildDivider(),
+                const SizedBox(height: 20),
+                _socialButton(
+                  icon: Icons.g_mobiledata,
+                  text: "Google",
+                  color: Colors.red,
+                  onTap: () async {
+                    await signInWithGoogle();
+                  },
+                ),
+                const SizedBox(height: 15),
+                
+                _socialButton(
+                  icon: Icons.facebook,
+                  text: "Facebook",
+                  color: Colors.blue,
+                  onTap: () {},
+                ),
+                const SizedBox(height: 20),
+                _loginRedirect(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- WIDGET HELPERS ---
+  Widget _buildTextField({required TextEditingController controller, required String hintText, required IconData icon, TextInputType keyboardType = TextInputType.text}) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      validator: (value) => value == null || value.isEmpty ? "$hintText tidak boleh kosong" : null,
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: Icon(icon, color: Colors.grey),
+        filled: true,
+        fillColor: const Color(0xFFFDFDFD),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[200]!)),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField({required TextEditingController controller, required String hintText, required bool obscureText, required VoidCallback toggleVisibility}) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: (value) => value == null || value.length < 6 ? "Password minimal 6 karakter" : null,
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
+        suffixIcon: IconButton(icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off, color: Colors.grey), onPressed: toggleVisibility),
+        filled: true,
+        fillColor: const Color(0xFFFDFDFD),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[200]!)),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Row(children: [
+      Expanded(child: Divider()),
+      Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Text("Atau daftar menggunakan", style: TextStyle(color: Colors.grey, fontSize: 12))),
+      Expanded(child: Divider()),
+    ]);
+  }
+
+  Widget _socialButton({
+    required IconData icon,
+    required String text,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 55,
+        decoration: BoxDecoration(
+          border: Border.all(color: color),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 30),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _loginRedirect() {
+    return Center(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text("Sudah punya akun? silahkan "),
+        GestureDetector(
+          onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
+          child: const Text("masuk", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+        ),
+      ]),
+    );
+  }
+}
