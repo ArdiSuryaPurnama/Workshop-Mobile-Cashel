@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 // Import widget navigasi yang tadi kita bikin
 import '../widgets/main_navigation_bar.dart'; 
@@ -42,4 +43,50 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
       ),
     );
   }
+=======
+import 'package:flutter/material.dart';
+// Import widget navigasi yang tadi kita bikin
+import '../widgets/main_navigation_bar.dart'; 
+// Import halaman-halaman kamu
+import 'halaman_beranda.dart';
+import 'halaman_overview.dart';
+import 'halaman_list_order.dart';
+
+class AdminMainScreen extends StatefulWidget {
+  const AdminMainScreen({super.key});
+
+  @override
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
+}
+
+class _AdminMainScreenState extends State<AdminMainScreen> {
+  int _currentIndex = 0;
+
+  // Daftar halaman yang akan tampil di bagian 'body'
+  final List<Widget> _pages = [
+    const HalamanBeranda(),
+    const HalamanOverview(),
+    const HalamanListOrder(), 
+    const Center(child: Text("Halaman Stok")),
+    const Center(child: Text("Halaman Akun")),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Ini bagian ajaibnya: body akan berubah sesuai index navigasi
+      body: _pages[_currentIndex],
+      
+      // Panggil widget navigasi dari folder widgets
+      bottomNavigationBar: MainNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index; // Update index supaya body berubah
+          });
+        },
+      ),
+    );
+  }
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 }

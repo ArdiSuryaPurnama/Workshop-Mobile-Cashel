@@ -4,7 +4,11 @@ import '../models/user_model.dart';
 
 class RegisterService {
   // Langsung tembak ke file register.php
+<<<<<<< HEAD
   final String baseUrl = "http://192.168.1.52/api_cashel/auth/register.php";
+=======
+  final String baseUrl = "http://localhost/api_cashel/auth/register.php";
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 
   Future<UserModel> register({
     required String nama,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'keranjang_page.dart';
 import 'checkout.dart'; 
+<<<<<<< HEAD
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+=======
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 
 class DetailProdukScreen extends StatefulWidget {
   final Map<String, String> produk;

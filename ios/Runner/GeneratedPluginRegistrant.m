@@ -42,12 +42,15 @@
 @import share_plus;
 #endif
 
+<<<<<<< HEAD
 #if __has_include(<shared_preferences_foundation/SharedPreferencesPlugin.h>)
 #import <shared_preferences_foundation/SharedPreferencesPlugin.h>
 #else
 @import shared_preferences_foundation;
 #endif
 
+=======
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
@@ -57,7 +60,10 @@
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [SaverGalleryPlugin registerWithRegistrar:[registry registrarForPlugin:@"SaverGalleryPlugin"]];
   [FPPSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPSharePlusPlugin"]];
+<<<<<<< HEAD
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
+=======
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 }
 
 @end

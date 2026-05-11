@@ -5,7 +5,10 @@ import '../data_produk.dart'; // Import file data master tunggal
 import 'halaman_grosir.dart';
 import 'semua_produk.dart';
 import 'akun.dart'; 
+<<<<<<< HEAD
 import 'keranjang_page.dart';
+=======
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 
 class TampilanAwalPage extends StatefulWidget {
   const TampilanAwalPage({super.key});
@@ -123,6 +126,7 @@ class _TampilanAwalPageState extends State<TampilanAwalPage> {
                     ),
                   ),
                   SizedBox(width: 15 * scale),
+<<<<<<< HEAD
                   // Membungkus ikon dengan GestureDetector agar bisa diklik
                   GestureDetector(
                     onTap: () {
@@ -163,6 +167,10 @@ class _TampilanAwalPageState extends State<TampilanAwalPage> {
                             ),
                           ),
                           SizedBox(width: 15 * scale),
+=======
+                  Image.asset('assets/images/cart.png', width: 25 * scale, color: Colors.white),
+                  SizedBox(width: 15 * scale),
+>>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
                   Image.asset('assets/images/message.png', width: 25 * scale, color: Colors.white),
                 ],
               ),
