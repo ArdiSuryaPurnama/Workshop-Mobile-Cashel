@@ -47,10 +47,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   saver_gallery: ^4.1.1
   intl: ^0.19.0
-<<<<<<< HEAD
+
   shared_preferences: ^2.5.5
-=======
->>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 
 dev_dependencies:
   flutter_test:
