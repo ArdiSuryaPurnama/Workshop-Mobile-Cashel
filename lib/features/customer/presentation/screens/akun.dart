@@ -1,16 +1,14 @@
-import 'package:cashel/features/auth/presentation/screens/login_screen.dart';
-import 'package:cashel/features/customer/presentation/screens/alamat_pengiriman.dart';
-import 'package:cashel/features/profile/pesanan_saya_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/akun_widgets.dart'; 
 
-// --- IMPORT HALAMAN TUJUAN (Sesuaikan nama filenya) ---
+// --- IMPORT HALAMAN TUJUAN (Pastikan file-file ini ada di folder yang sama) ---
 import 'riwayat_pesanan_page.dart'; 
-import 'rincian_pesanan_screen.dart'; // Ini untuk 'Detail Saya'
+import 'rincian_pesanan_screen.dart'; 
 import 'notifikasi_page.dart';
+import 'alamat_pengiriman.dart'; 
 
-import '../../../auth/presentation/screens/login_screen.dart';
-import 'alamat_pengiriman.dart'; // Buka komen ini kalau file alamat sudah ada
+// Import Login (Gunakan salah satu path yang benar)
+import 'package:cashel/features/auth/presentation/screens/Splash_screen.dart';
 
 class AkunPage extends StatefulWidget {
   const AkunPage({super.key});
@@ -22,7 +20,7 @@ class AkunPage extends StatefulWidget {
 class _AkunPageState extends State<AkunPage> {
   String _userName = "Jefri Nichol";
   String _userEmail = "jefrinichol@gmail.com";
-  String _userImage = 'assets/images/profile_pic.png';
+  String _userImage = 'assets/images/profile_pic.jpeg';
 
   void _showEditNameDialog() {
     TextEditingController nameController = TextEditingController(text: _userName);
@@ -30,7 +28,7 @@ class _AkunPageState extends State<AkunPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: const Text("Ubah Nama", style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
+        title: const Text("Ubah Nama", style: TextStyle(fontWeight: FontWeight.bold)),
         content: TextField(
           controller: nameController,
           autofocus: true,
@@ -55,10 +53,6 @@ class _AkunPageState extends State<AkunPage> {
     );
   }
 
-  void _pickImageFromGallery() {
-    // Simulasi ganti foto
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,71 +65,71 @@ class _AkunPageState extends State<AkunPage> {
               name: _userName,
               email: _userEmail,
               imagePath: _userImage,
-              onEditName: _showEditNameDialog,
-              onEditPhoto: _pickImageFromGallery,
-            ),
+              // 1. Ini fungsi ketika KOTAK PROFIL diklik (Edit Akun)
+              onEditName: () {
+                _showEditNameDialog(); // Panggil fungsi dialog yang sudah kamu buat
+                },
+                // 2. Ini fungsi ketika LOGO KAMERA diklik (Ganti Foto)
+                onEditPhoto: () {
+                  // Sementara kita kasih notifikasi dulu
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Membuka Galeri...")),
+                    );
+                    void _pickImageFromGallery() {
+                      // Sementara kita kasih notifikasi dulu ya
+                      //// Nanti kalau mau beneran ambil foto, kita harus instal 'image_picker'
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Fitur akses galeri sedang disiapkan!"),
+                          backgroundColor: Colors.blue,
+                          ),
+                          );
+                        }
+                      },
+                    ),
             
             const SizedBox(height: 10),
 
-            // --- REVISI MENU ITEMS ---
-            
             AkunMenuItem(
               iconPath: 'assets/images/pesanan_icon.png', 
               title: 'Pesanan', 
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const RiwayatPesananPage()));
-              }
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RiwayatPesananPage())),
             ),
 
             AkunMenuItem(
               iconPath: 'assets/images/detail_saya_icon.png', 
               title: 'Detail Saya', 
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPesananScreen()));
-              }
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RiwayatPesananPage())),
             ),
 
             AkunMenuItem(
               iconPath: 'assets/images/alamat_icon.png', 
               title: 'Alamat Pengiriman', 
-              onTap: () {
-                // Ini adalah kode untuk pindah ke halaman alamat
-                Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => const AlamatSayaPage()),
-                );
-                },
-                ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AlamatSayaPage())),
+            ),
 
             AkunMenuItem(
               iconPath: 'assets/images/notifikasi_icon.png', 
               title: 'Notifikasi', 
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const NotifikasiPage()));
-              }
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const NotifikasiPage())),
             ),
 
             const Divider(height: 1, thickness: 1, color: Color(0xFFE2E2E2)),
 
             const Spacer(flex: 3), 
             
-            // --- REVISI LOGOUT ---
-            // Karena LogoutButton biasanya stateless widget di file lain, 
-            // Kalau kamu mau aksinya ada di sini, kamu bisa bungkus dengan GestureDetector
-           const Spacer(flex: 3), 
-           GestureDetector(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()), 
-                (route) => false,
+            GestureDetector(
+              onTap: () {
+                // Logout ke SplashScreen (atau LoginScreen sesuai kemauanmu)
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SplashScreen()), 
+                  (route) => false,
                 );
               },
               child: const LogoutButton(),
-              ),
-              const Spacer(flex: 1),
-
-            const Spacer(flex: 1), 
+            ),
+            const Spacer(flex: 1),
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -152,7 +151,7 @@ class _HalamanGrosirState extends State<HalamanGrosir> {
       },
     );
   }
-=======
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -306,5 +305,4 @@ class _HalamanGrosirState extends State<HalamanGrosir> {
       },
     );
   }
->>>>>>> d0eec547873d7312bd5fbce0f0ccb497ee6769d6
 }
