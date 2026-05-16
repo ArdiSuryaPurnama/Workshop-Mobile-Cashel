@@ -162,8 +162,6 @@ class _TampilanAwalPageState extends State<TampilanAwalPage> {
                                 ],
                             ),
                           ),
-                          SizedBox(width: 15 * scale),
-                  Image.asset('assets/images/cart.png', width: 25 * scale, color: Colors.white),
                   SizedBox(width: 15 * scale),
                   Image.asset('assets/images/message.png', width: 25 * scale, color: Colors.white),
                 ],
