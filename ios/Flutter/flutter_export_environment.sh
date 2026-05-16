@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\Users\nihan\develop\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\nihan\Workshop Mobile Application\Workshop-Mobile-Cashel-main"
+export "FLUTTER_ROOT=C:\flutter\flutter"
+export "FLUTTER_APPLICATION_PATH=C:\Users\asus\Documents\GitHub\Workshop-Mobile-Cashel"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"

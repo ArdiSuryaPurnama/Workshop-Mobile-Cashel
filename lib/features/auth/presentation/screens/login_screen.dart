@@ -16,7 +16,6 @@ import '../../../../shared/widgets/custom_textfield.dart';
 
 import '../../../../features/customer/presentation/screens/tampilan_awal_page.dart';
 
-// ... (Bagian import tetap sama)
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,9 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   String? errorMessage;
 
-  // =========================
   // LOGIN GOOGLE
-  // =========================
+
   Future<void> signInWithGoogle() async {
     try {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
@@ -85,9 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // =========================
   // LOGIN PHP MYSQL
-  // =========================
   void handleLogin() async {
     setState(() {
       isLoading = true;

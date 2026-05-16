@@ -5,6 +5,7 @@ import '../widgets/main_navigation_bar.dart';
 import 'halaman_beranda.dart';
 import 'halaman_overview.dart';
 import 'halaman_list_order.dart';
+import 'halaman_stok.dart';
 
 class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});
@@ -21,7 +22,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
     const HalamanBeranda(),
     const HalamanOverview(),
     const HalamanListOrder(), 
-    const Center(child: Text("Halaman Stok")),
+    const HalamanStok(),
     const Center(child: Text("Halaman Akun")),
   ];
 
