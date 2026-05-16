@@ -1,21 +1,19 @@
+import 'dart:convert'; // Untuk men-decode respon JSON API
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // <---
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart'; // Untuk session data lokal
 
+// Import screen & features sesuai struktur project kamu
 import '../../../../features/admin/screen/admin_main_screen.dart';
 import '.././screens/register_page.dart';
-
 import '../../../../data/service/login_service.dart';
 import '../../../../data/models/user_model.dart';
-
 import '../../../../core/constants/colors.dart';
-
 import '../../../../shared/widgets/custom_button.dart';
 import '../../../../shared/widgets/custom_textfield.dart';
-
 import '../../../../features/customer/presentation/screens/tampilan_awal_page.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,16 +30,25 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   String? errorMessage;
 
-  // LOGIN GOOGLE
-
+  // ===========================================================================
+  // 1. FITUR LOGIN VIA GOOGLE SIGN-IN (FIXED: SELALU COCOK DENGAN SELEKSI ROLE & EMAIL)
+  // ===========================================================================
   Future<void> signInWithGoogle() async {
     try {
+      // -----------------------------------------------------------------------
+      // Ini bertugas memutuskan auto-login agar jendela pilih akun selalu keluar
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+      await FirebaseAuth.instance.signOut();
+      // -----------------------------------------------------------------------
+
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(authProvider);
 
       User? user = userCredential.user;
 
       if (user != null) {
+        // Mengirim data identitas google ke backend untuk dicek/didaftarkan ke DB
         final response = await http.post(
           Uri.parse("http://localhost/api_cashel/auth/google_login.php"),
           body: {
@@ -53,23 +60,58 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (!mounted) return;
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Login berhasil!"),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(20),
-            // GANTI borderRadius MENJADI shape SEPERTI DI BAWAH:
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        // Mendecode data respon dari script google_login.php
+        final dataRespon = json.decode(response.body);
+
+        if (dataRespon['status'] == 'success') {
+          
+          // --- PROSES MENYIMPAN SESSION AKUN GOOGLE KE LOKAL HP ---
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          
+          String namaUser = dataRespon['data']['nama'] ?? (user.displayName ?? 'User Cashel');
+          String roleUser = dataRespon['data']['role'] ?? 'customer';
+
+          await prefs.setString('nama_user', namaUser);
+          await prefs.setString('email_user', user.email ?? "");
+          await prefs.setString('role_user', roleUser);
+          await prefs.setBool('is_login', true);
+          // -------------------------------------------------------------
+
+          // Menampilkan snackbar pemberitahuan sukses
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text("Login via Google berhasil!"),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              duration: const Duration(seconds: 2),
             ),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const TampilanAwalPage()),
-        );
+          );
+
+          // PENGALIHAN HALAMAN BERDASARKAN ROLE DATA GOOGLE DI DATABASE SECARA RIIL
+          if (roleUser == 'admin') {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const AdminMainScreen()),
+              (route) => false, // Bersihkan history halaman agar aman dari tombol back
+            );
+          } else {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const TampilanAwalPage()),
+              (route) => false,
+            );
+          }
+        } else {
+          // Jika status balikan dari API php bernilai error
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Gagal verifikasi database server: ${dataRespon['message']}"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,7 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // LOGIN PHP MYSQL
+  // ===========================================================================
+  // 2. FITUR LOGIN MANUAL PHP MYSQL VIA FORM INPUT
+  // ===========================================================================
   void handleLogin() async {
     setState(() {
       isLoading = true;
@@ -102,12 +146,23 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = false);
 
       if (response.status == 'success') {
+        
+        // --- PROSES MENYIMPAN SESSION AKUN MANUAL KE LOKAL HP ---
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        
+        await prefs.setString('nama_user', response.data?.nama ?? 'Admin Cashel');
+        await prefs.setString('email_user', emailController.text); 
+        await prefs.setString('role_user', response.data?.role ?? 'admin');
+        await prefs.setBool('is_login', true);
+        // --------------------------------------------------------
+
         String userRole = response.data?.role ?? 'customer';
 
         if (userRole == 'admin') {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const AdminMainScreen()),
+            (route) => false, 
           );
         } else {
           Navigator.pushReplacement(
@@ -202,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _buildDivider(),
               const SizedBox(height: 25),
 
-              // TOMBOL SOSIAL MEDIA (Hanya Google)
+              // TOMBOL SOSIAL MEDIA GOOGLE SIGN-IN
               _buildSocialButton(
                 text: "Google",
                 iconAsset: 'assets/images/google-icon.png',
@@ -221,8 +276,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // --- WIDGET HELPERS ---
-
+  // ===========================================================================
+  // WIDGET HELPERS COMPONENT UI
+  // ===========================================================================
   Widget _buildDivider() {
     return Row(
       children: [
